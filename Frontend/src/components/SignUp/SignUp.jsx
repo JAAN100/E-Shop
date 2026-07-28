@@ -1,21 +1,53 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, UserCircle } from "lucide-react";
 import styles from "../../styles/styles";
-export default function Login() {
+export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [fullname, setFullName] = useState("");
     const [visible, setVisible] = useState(false);
+    const [avatar, setAvatar] = useState(null);
+    const handleSubmit = () => {
+        console.log("Uploaded");
+    };
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        setAvatar(file);
+    };
+    console.log(avatar);
+
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Login Your Account
+                    Register as a new User
                 </h1>
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm-px-10 mx-3">
-                    <form className="space-y-6 px-4">
+                    <form className="space-y-6 px-4" encType="multipart/form-data">
+                        <div>
+                            <label
+                                htmlFor="fullname"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Full Name
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    type="text"
+                                    name="fullname"
+                                    id="fullname"
+                                    autoComplete="name"
+                                    required
+                                    value={fullname}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    className="appearance-none block w-full border px-3 py-2 border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    placeholder="Enter your fullname"
+                                />
+                            </div>
+                        </div>
                         <div>
                             <label
                                 htmlFor="email"
@@ -75,33 +107,49 @@ export default function Login() {
                                 )}
                             </div>
                         </div>
-                        <div className={`${styles.normalFlex} justify-between`}>
-                            <div className={`${styles.normalFlex}`}>
-                                <input
-                                    type="checkbox"
-                                    className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                    id="remember-me"
-                                    name="remember-me"
-                                />
+                        <div className={`${styles.normalFlex}`}>
+                            <div className="mt-2 flex items-center ">
+                                <span className="h-8 w-8 rounded-full overflow-hidden">
+                                    {avatar ? (
+                                        <img
+                                            src={URL.createObjectURL(avatar)}
+                                            alt="avatar"
+                                            className="h-full w-full object-cover rounded-full"
+                                        />
+                                    ) : (
+                                        <UserCircle size={26} className="mr-3" />
+                                    )}
+                                </span>
                                 <label
-                                    htmlFor="remember-me"
-                                    className="ml-2 block text-sm text-gray-900 hover:text-blue-600 cursor-pointer"
+                                    htmlFor="file-input"
+                                    className="ml-3 flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white cursor-pointer"
                                 >
-                                    Remember Me!
+                                    <span>Upload a file</span>
+                                    <input
+                                        type="file"
+                                        accept=".jpg,.jpeg,.png"
+                                        id="file-input"
+                                        name="avatar"
+                                        onChange={handleFileInputChange}
+                                        className="sr-only"
+                                    />
                                 </label>
                             </div>
-                            <div className={`${styles.normalFlex}`}>
-                                <p className="text-sm text-gray-900 hover:text-blue-600 cursor-pointer">Forget Password?</p>
-                            </div>
                         </div>
-                        <button type="submit" className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85">
-                            Login
+                        <button
+                            type="submit"
+                            className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85"
+                        >
+                            Sign Up
                         </button>
                     </form>
-                    <div className={`${styles.normalFlex} w-full mt-5 px-5`} >
-                        <p className="text-gray-500 text-md">Not have an account?</p>
-                        <Link to={"/sign-up"} className="text-sm ml-2 text-blue-600 hover:opacity-70">
-                            Sign Up
+                    <div className={`${styles.normalFlex} w-full mt-5 px-5`}>
+                        <p className="text-gray-500 text-md">Already have an account?</p>
+                        <Link
+                            to={"/log-in"}
+                            className="text-sm ml-2 text-blue-600 hover:opacity-70"
+                        >
+                            Sign In
                         </Link>
                     </div>
                 </div>
