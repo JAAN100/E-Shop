@@ -4,6 +4,6 @@ const { uploadImageMulter } = require("../middleware/multer");
 const uploadImage = require("../controllers/imageRoutes");
 const { createUser } = require("../controllers/user");
 
-router.post("/create-user", uploadImageMulter.single("image"), uploadImage, createUser);
+router.post("/sign-up", uploadImageMulter.single("image"), uploadImage, createUser);
 
 module.exports = router;

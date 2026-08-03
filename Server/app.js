@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/api/sign-in", userRoute);
+app.use("/api/user", userRoute);
 
 // The error handler must be registered LAST, after every route.
 // Express matches middleware in order — an error thrown in a route

@@ -27,16 +27,16 @@ export default function SignUp() {
             formData.append("email", email);
             formData.append("password", password);
             if (avatar) {
-                formData.append("image", avatar); // key must match multer's .single("image")
+                formData.append("image", avatar);
             }
 
-            const response = await fetch("http://localhost:8000/api/sign-in/create-user", {
+            const response = await fetch("/api/user/sign-up", {
                 method: "POST",
                 body: formData,
-                // no headers here — the browser sets Content-Type + boundary automatically
             });
             setLoading(false);
             const data = await response.json();
+
             if (data.success === true) {
                 navigate("/log-in");
             } else {
