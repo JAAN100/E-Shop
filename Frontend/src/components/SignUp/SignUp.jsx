@@ -1,6 +1,6 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
-import { Eye, EyeOff, UserCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, UserCircle, LoaderCircle } from "lucide-react";
 import styles from "../../styles/styles";
 export default function SignUp() {
     const [email, setEmail] = useState("");
@@ -8,6 +8,8 @@ export default function SignUp() {
     const [fullname, setFullName] = useState("");
     const [visible, setVisible] = useState(false);
     const [avatar, setAvatar] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const handleSubmit = () => {
         console.log("Uploaded");
     };
@@ -15,7 +17,36 @@ export default function SignUp() {
         const file = e.target.files[0];
         setAvatar(file);
     };
-    console.log(avatar);
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            const formData = new FormData();
+            formData.append("fullName", fullname);
+            formData.append("email", email);
+            formData.append("password", password);
+            if (avatar) {
+                formData.append("image", avatar); // key must match multer's .single("image")
+            }
+
+            const response = await fetch("http://localhost:8000/api/sign-in/create-user", {
+                method: "POST",
+                body: formData,
+                // no headers here — the browser sets Content-Type + boundary automatically
+            });
+            setLoading(false);
+            const data = await response.json();
+            if (data.success === true) {
+                navigate("/log-in");
+            } else {
+                alert(data.message || "Something went wrong");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong. Please try again.");
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -26,7 +57,7 @@ export default function SignUp() {
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm-px-10 mx-3">
-                    <form className="space-y-6 px-4" encType="multipart/form-data">
+                    <form onSubmit={handleFormSubmit} className="space-y-6 px-4" encType="multipart/form-data">
                         <div>
                             <label
                                 htmlFor="fullname"
@@ -140,7 +171,7 @@ export default function SignUp() {
                             type="submit"
                             className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85"
                         >
-                            Sign Up
+                            {loading ? <LoaderCircle size={26} className="animate-spin mx-auto" /> : "Sign Up"}
                         </button>
                     </form>
                     <div className={`${styles.normalFlex} w-full mt-5 px-5`}>
