@@ -1,11 +1,36 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import styles from "../../styles/styles";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            const response = await fetch("/api/user/log-in", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            setLoading(false);
+            if (data.success === true) {
+                navigate("/");
+            } else {
+                alert(data.message);
+            }
+        }
+        catch (err) {
+            alert("Something went wrong. Please try again.");
+        }
+    }
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -15,7 +40,7 @@ export default function Login() {
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm-px-10 mx-3">
-                    <form className="space-y-6 px-4">
+                    <form onSubmit={handleFormSubmit} className="space-y-6 px-4">
                         <div>
                             <label
                                 htmlFor="email"
@@ -95,7 +120,7 @@ export default function Login() {
                             </div>
                         </div>
                         <button type="submit" className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85">
-                            Login
+                            {loading ? <LoaderCircle size={23} className="animate-spin mx-auto" /> : "Login"}
                         </button>
                     </form>
                     <div className={`${styles.normalFlex} w-full mt-5 px-5`} >

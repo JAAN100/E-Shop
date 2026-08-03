@@ -148,7 +148,7 @@ export default function SignUp() {
                                             className="h-full w-full object-cover rounded-full"
                                         />
                                     ) : (
-                                        <UserCircle size={26} className="mr-3" />
+                                        <UserCircle size={23} className="mr-3" />
                                     )}
                                 </span>
                                 <label
