@@ -38,7 +38,7 @@ export default function SignUp() {
             const data = await response.json();
 
             if (data.success === true) {
-                navigate("/log-in");
+                alert(data.message);
             } else {
                 alert(data.message || "Something went wrong");
             }
