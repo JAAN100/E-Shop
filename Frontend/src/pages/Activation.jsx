@@ -20,13 +20,12 @@ export default function Activation() {
                 console.log(data);
 
                 if (data.message !== "Not Found") {
-                    setError(true);
+                    setError(false);
                     return;
                 }
-                setError(false);
+                setError(true);
             } catch (err) {
-                console.log(err);
-                setError(false);
+                setError(true);
             }
         };
 
@@ -35,7 +34,7 @@ export default function Activation() {
 
     return (
         <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            {!error ? <p>Your token is expired!</p> : <p>Your account has been created successfully!</p>}
+            {error ? <p>Your token is expired!</p> : <p>Your account has been created successfully!</p>}
         </div>
     );
 }
