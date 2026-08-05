@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Home, LoginPage, SignUpPage, Activation } from './Routes.js'
 import { ToastContainer, Bounce } from 'react-toastify';
+import store from './redux/store.js';
 import ScrollToTop from './components/ScrollToTop.jsx'
 function App() {
-  const [count, setCount] = useState(0)
-
+  useEffect(() => {
+    store.dispatch({ type: 'user/getUser' });
+  }, [])
   return (
     <>
       <ScrollToTop />

@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { toast } from "react-toastify";
 import styles from "../../styles/styles";
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -22,13 +23,14 @@ export default function Login() {
             const data = await response.json();
             setLoading(false);
             if (data.success === true) {
+                toast.success("Login Successful!");
                 navigate("/");
             } else {
-                alert(data.message);
+                toast.error(data.message);
             }
         }
         catch (err) {
-            alert("Something went wrong. Please try again.");
+            toast.error("Something went wrong. Please try again.");
         }
     }
     return (

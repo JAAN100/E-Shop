@@ -18,7 +18,6 @@ export default function Activation() {
                 });
                 const data = await res.json();
                 console.log(data);
-
                 if (data.message !== "Not Found") {
                     setError(false);
                     return;

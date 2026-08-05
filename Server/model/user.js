@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 const userSchema = new Schema({
     fullName: {
         type: String,
@@ -27,6 +27,12 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 // model(name, schema) — the second argument must be the Schema instance,
+userSchema.methods.getJWTToken = function () {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE,
+    });
+};
+
 // not a string. Passing "user" here was breaking the model entirely.
 const USER = model("User", userSchema);
 

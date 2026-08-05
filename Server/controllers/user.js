@@ -80,37 +80,54 @@ const ActivationUser = catchAsyncErrors(async (req, res, next) => {
 
 
 
-async function LoginUser(req, res , next) {
+const LoginUser = catchAsyncErrors(async (req, res, next) =>  {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email }).select("+password");
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: "User not found",
+                message: "Wrong credentials",
             });
         }
         const isPasswordValid = await bcryptjs.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid password",
+                message: "Wrong credentials",
             });
         }
-        return res.status(200).json({
-            success: true,
-            message: "User logged in successfully",
-            user,
-        });
+        sendToken(user, 200, res);
     } catch (error) {
         error = new ErrorHandler(error.message, 500);
         next(error);
     }
+}); 
 
+//load user
+async function GetUser(req, res, next) {
+    try {
+        const user = await User.findById(req.user.id);
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: "User not found",
+        });
+    }
+    res.status(200).json({
+        success: true,
+        user,
+    });
+    } catch (error) {
+        error = new ErrorHandler(error.message, 500);
+        next(error);
+    }
 }
+
 
 module.exports = {
     createUser,
     LoginUser,
-    ActivationUser
+    ActivationUser,
+    GetUser
 };
