@@ -9,7 +9,7 @@ export default function DropDownData({ categoriesData, setDropDown }) {
         window.location.reload();
     };
     return (
-        <div className="pb-4 w-[270px] absolute bg-[#fff] z-30 rounded-b-md shadow-sm border-t-[2px] border-t-gray-200">
+        <div className="pb-4 w-full lg:w-[270px] absolute bg-[#fff] z-30 rounded-b-md shadow-sm border-t-[2px] border-t-gray-200">
             {categoriesData &&
                 categoriesData.map((category, index) => (
                     <div

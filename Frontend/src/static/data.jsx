@@ -221,20 +221,20 @@ export const categoriesData = [
     title: "Shoes",
     subTitle: "",
     image_Url:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU",
+      "https://www.fkick.pk/cdn/shop/files/040.png?v=1768561084",
   },
   {
     id: 6,
     title: "Gifts",
     subTitle: "",
     image_Url:
-      "https://securecdn.pymnts.com/wp-content/uploads/2014/11/Gifts-Photo-700x489.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4bajLoDLp3LsvY_QKGSyzfN2Gzo6L9AbvyoF-WeSNAZkYXBZkbfigfNI&s=10",
   },
   {
     id: 7,
     title: "Pet Care",
     subTitle: "",
-    image_Url: "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
+    image_Url: "https://www.surepetcare.com/images/ogs/Sure_Petcare_Felaqua_Connect_Sear_3.jpg",
   },
   {
     id: 8,
@@ -270,11 +270,11 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://rizwancameracentre.pk/wp-content/uploads/2022/03/apple_z124_mgn6_02_bh_13_3_macbook_air_with_1605032111_1604831.jpg",
       },
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://uaedubai-bucket.s3.me-central-1.amazonaws.com/wp-content/uploads/2024/11/Apple-MacBook-Pro-M4-Silver_uaedubai.ae_5.jpg",
       },
     ],
     shop: {
@@ -392,11 +392,11 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg",
+        url: "https://www.fkick.pk/products/fk-040-mens-casual-monk-strap-shoes-tan-brown-pakistan?srsltid=AfmBOoqStbj9L-gDNCXenBBO5Hzxxrrxvu3ruXTZmLJhNbziZtx81lgV",
       },
       {
         public_id: "test",
-        url: "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg",
+        url: "https://www.fkick.pk/products/fk-040-mens-casual-monk-strap-shoes-tan-brown-pakistan?srsltid=AfmBOoqStbj9L-gDNCXenBBO5Hzxxrrxvu3ruXTZmLJhNbziZtx81lgV",
       },
     ],
     shop: {
