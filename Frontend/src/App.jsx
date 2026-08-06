@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { Home, LoginPage, SignUpPage, Activation } from './Routes.js'
+import { HomePage, LoginPage, SignUpPage, Activation } from './Routes.js'
 import { ToastContainer, Bounce } from 'react-toastify';
 import store from './redux/store.js';
 import ScrollToTop from './components/ScrollToTop.jsx'
@@ -12,7 +12,7 @@ function App() {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path='/' element={<Home />}></Route>
+        <Route path='/' element={<HomePage />}></Route>
         <Route path='log-in' element={<LoginPage />}></Route>
         <Route path='sign-up' element={<SignUpPage />}></Route>
         <Route path='activation/:activation_token' element={<Activation />}></Route>
