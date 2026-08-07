@@ -281,7 +281,7 @@ export const productData = [
       name: "Apple inc.",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -311,7 +311,7 @@ export const productData = [
       name: "Amazon Ltd",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -330,7 +330,7 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToUtGkUhxp5CraMIIU6Y9itaq5OxY5lCX1oQO_ryTko7TkvysFFgeieF8&s=10",
       },
       {
         public_id: "test",
@@ -341,7 +341,7 @@ export const productData = [
       name: "Apple inc.",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -372,7 +372,7 @@ export const productData = [
       name: "Shahriar Watch House",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
       category: "Others"
@@ -392,7 +392,7 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.fkick.pk/products/fk-040-mens-casual-monk-strap-shoes-tan-brown-pakistan?srsltid=AfmBOoqStbj9L-gDNCXenBBO5Hzxxrrxvu3ruXTZmLJhNbziZtx81lgV",
+        url: "https://www.fkick.pk/cdn/shop/files/040.png?v=1768561084",
       },
       {
         public_id: "test",
@@ -403,7 +403,7 @@ export const productData = [
       name: "Alisha Shoes Mart",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -433,7 +433,7 @@ export const productData = [
       name: "Asus Ltd",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -472,7 +472,7 @@ export const productData = [
       name: "Shahriar Watch House",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -501,7 +501,7 @@ export const productData = [
       name: "Asus Ltd",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -540,7 +540,7 @@ export const productData = [
       name: "Amazon Ltd",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
@@ -569,7 +569,7 @@ export const productData = [
       name: "Asus Ltd",
       shop_avatar: {
         public_id: "test",
-        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+        url: "https://thumbs.dreamstime.com/b/icons-sample-psost-setting-428651105.jpg",
       },
       ratings: 4.2,
     },
