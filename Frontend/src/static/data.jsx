@@ -601,47 +601,60 @@ export const footerProductLinks = [
   },
   {
     name: "Store Locations",
+    link: "/store-locations"
   },
   {
     name: "Our Blog",
+    link: "/our-blog"
   },
   {
     name: "Reviews",
+    link: "/reviews"
   },
 ];
 
 export const footercompanyLinks = [
   {
     name: "Game & Video",
+    link: "/game-video"
   },
   {
     name: "Phone &Tablets",
+    link: "/phone-tablets"
   },
   {
     name: "Computers & Laptop",
+    link: "/computers-laptop"
   },
   {
     name: "Sport Watches",
+    link: "/sport-watches"
   },
   {
     name: "Events",
+    link: "/events"
   },
 ];
 
 export const footerSupportLinks = [
   {
     name: "FAQ",
+    link: "/faq"
   },
   {
     name: "Reviews",
+    link: "/reviews"
   },
   {
     name: "Contact Us",
+    link: "/contact"
   },
   {
     name: "Shipping",
+    link: "/shipping"
   },
   {
     name: "Live chat",
+    link: "/live-chat"
   },
 ];

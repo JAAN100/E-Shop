@@ -4,7 +4,7 @@ import { AiOutlineMessage, AiOutlineHeart, AiFillHeart, AiOutlineShoppingCart } 
 export default function ProductDetailsCard({ setOpen, data }) {
     const [count, setCount] = React.useState(1);
     const [click, setClick] = React.useState(false);
-    const [select, setSelect] = React.useState(false);
+    // [select, setSelect] = React.useState(false);
     const handleMessageSubmit = () => {
 
     }
