@@ -1,8 +1,8 @@
 import React from "react";
 import CountDown from "./CountDown.jsx";
-export default function EventCard() {
+export default function EventCard({ active }) {
     return (
-        <div className="w-full block bg-white rounded-lg lg:flex p-2 mb-12">
+        <div className={`w-full block bg-white ${active ? '' : 'mb-12'} rounded-lg lg:flex p-2`}>
             <div className="w-full lg:[w-50%] m-auto">
                 <img
                     src="https://st-troy.mncdn.com/mnresize/1500/1500/Content/media/ProductImg/original/mpwp3tua-apple-iphone-14-256gb-mavi-mpwp3tua-637986832343472449.jpg"
@@ -10,7 +10,7 @@ export default function EventCard() {
                     className=""
                 />
             </div>
-            <div className="w-full lg:[w-50%] flex flex-col justify-center">
+            <div className="w-full lg:[w-50%] flex flex-col justify-center mx-16">
                 <h2 className="text-[25px] font-[600] font-Roboto text-[#333]">
                     Iphone 14 pro max 8/256gb
                 </h2>

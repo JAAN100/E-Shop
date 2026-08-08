@@ -1,22 +1,37 @@
-import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { HomePage, LoginPage, SignUpPage, Activation, ProductsPage } from './Routes.js'
-import { ToastContainer, Bounce } from 'react-toastify';
-import store from './redux/store.js';
-import ScrollToTop from './components/ScrollToTop.jsx'
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import {
+  HomePage,
+  LoginPage,
+  SignUpPage,
+  Activation,
+  ProductsPage,
+  BestSellingPage,
+  EventPage,
+  FAQPage,
+} from "./Routes.js";
+import { ToastContainer, Bounce } from "react-toastify";
+import store from "./redux/store.js";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 function App() {
   useEffect(() => {
-    store.dispatch({ type: 'user/getUser' });
-  }, [])
+    store.dispatch({ type: "user/getUser" });
+  }, []);
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path='/' element={<HomePage />}></Route>
-        <Route path='log-in' element={<LoginPage />}></Route>
-        <Route path='sign-up' element={<SignUpPage />}></Route>
-        <Route path='products' element={<ProductsPage />}></Route>
-        <Route path='activation/:activation_token' element={<Activation />}></Route>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/log-in" element={<LoginPage />}></Route>
+        <Route path="/sign-up" element={<SignUpPage />}></Route>
+        <Route path="/products" element={<ProductsPage />}></Route>
+        <Route path="/best-selling" element={<BestSellingPage />}></Route>
+        <Route path="/events" element={<EventPage />}></Route>
+        <Route path="/faq" element={<FAQPage />}></Route>
+        <Route
+          path="activation/:activation_token"
+          element={<Activation />}
+        ></Route>
       </Routes>
       <ToastContainer
         position="top-right"
@@ -32,7 +47,7 @@ function App() {
         transition={Bounce}
       />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

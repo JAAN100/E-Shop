@@ -8,7 +8,7 @@ export default function Events() {
                     <h1>Popular Events</h1>
                 </div>
                 <div className="w-full grid">
-                    <EventCard />
+                    <EventCard active={false} />
                 </div>
             </div>
         </div>
