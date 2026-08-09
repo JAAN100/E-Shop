@@ -12,10 +12,12 @@ import {
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import DropDownData from "./DropDownData";
+import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { categoriesData } from "../../static/data";
 
 export default function Header({ activeHeading }) {
+    const { isAuthenticated, user, loading } = useSelector((state) => state.user);
     const [search, setSearch] = useState("");
     const [searchData, setSearchData] = useState(null);
     const [active, setActive] = useState(false);
@@ -42,7 +44,6 @@ export default function Header({ activeHeading }) {
 
     return (
         <>
-            {/* Top bar: hamburger, logo, search, seller button, icons — always visible */}
             <div className={`${styles.section}`}>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-3 py-3 md:py-5">
                     {/* Mobile menu toggle */}
@@ -64,7 +65,7 @@ export default function Header({ activeHeading }) {
                         />
                     </Link>
 
-                    {/* Search box — wraps to its own full-width row on small screens */}
+                    {/* Search box */}
                     <div className="order-4 sm:order-3 basis-full sm:basis-0 sm:flex-1 relative">
                         <input
                             ref={searchRef}
@@ -100,7 +101,7 @@ export default function Header({ activeHeading }) {
                         ) : null}
                     </div>
 
-                    {/* Become Seller + wishlist/cart/profile — stays on row 1, pushed right */}
+                    {/* Become Seller + wishlist/cart/profile */}
                     <div className="order-3 sm:order-4 ml-auto sm:ml-0 flex items-center gap-3 md:gap-4">
                         <div className={`${styles.button}`}>
                             <Link to={"seller"}>
@@ -124,10 +125,19 @@ export default function Header({ activeHeading }) {
                                 1
                             </span>
                         </div>
-
-                        <Link to={"/log-in"}>
-                            <CgProfile size={26} className="text-gray-700" />
-                        </Link>
+                        {isAuthenticated ? (
+                            <Link to="/profile">
+                                <img
+                                    src={user.avatar}
+                                    alt={user.name}
+                                    className="w-[35px] h-[35px] rounded-full object-cover"
+                                />
+                            </Link>
+                        ) : (
+                            <Link to={"/log-in"}>
+                                <CgProfile size={26} className="text-gray-700" />
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

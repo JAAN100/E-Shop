@@ -2,8 +2,11 @@ import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loadUser } from "../../redux/actions/user.js";
 import styles from "../../styles/styles";
 export default function Login() {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
@@ -24,6 +27,7 @@ export default function Login() {
             setLoading(false);
             if (data.success === true) {
                 toast.success("Login Successful!");
+                dispatch(loadUser());
                 navigate("/");
             } else {
                 toast.error(data.message);
