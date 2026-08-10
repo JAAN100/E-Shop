@@ -10,6 +10,8 @@ import {
   EventPage,
   FAQPage,
   CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage
 } from "./Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -36,6 +38,8 @@ function App() {
               <Route path="/events" element={<EventPage />}></Route>
               <Route path="/faq" element={<FAQPage />}></Route>
               <Route path="/checkout" element={<CheckoutPage />}></Route>
+              <Route path="/payment" element={<PaymentPage />}></Route>
+              <Route path="/order/success/:id" element={<OrderSuccessPage />} />
               <Route
                 path="activation/:activation_token"
                 element={<Activation />}

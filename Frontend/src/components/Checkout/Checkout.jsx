@@ -153,7 +153,7 @@ const ShippingInfo = ({
                         <label className="block pb-2">Full Name</label>
                         <input
                             type="text"
-                            value={user && user.name}
+                            defaultValue={user && user.name}
                             required
                             className={`${styles.input} !w-[95%]`}
                         />
@@ -162,7 +162,7 @@ const ShippingInfo = ({
                         <label className="block pb-2">Email Address</label>
                         <input
                             type="email"
-                            value={user && user.email}
+                            defaultValue={user && user.email}
                             required
                             className={`${styles.input}`}
                         />
@@ -175,7 +175,7 @@ const ShippingInfo = ({
                         <input
                             type="number"
                             required
-                            value={user && user.phoneNumber}
+                            defaultValue={user && user.phoneNumber}
                             className={`${styles.input} !w-[95%]`}
                         />
                     </div>
@@ -183,7 +183,7 @@ const ShippingInfo = ({
                         <label className="block pb-2">Zip Code</label>
                         <input
                             type="number"
-                            value={zipCode}
+                            value={zipCode ? zipCode : ""}
                             onChange={(e) => setZipCode(e.target.value)}
                             required
                             className={`${styles.input}`}
