@@ -15,7 +15,8 @@ import DropDownData from "./DropDownData";
 import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { categoriesData } from "../../static/data";
-
+import Cart from "../Cart/Cart.jsx";
+import Wishlist from "../Wishlist/Wishlist.jsx";
 export default function Header({ activeHeading }) {
     const { isAuthenticated, user, loading } = useSelector((state) => state.user);
     const [search, setSearch] = useState("");
@@ -24,7 +25,8 @@ export default function Header({ activeHeading }) {
     const [dropDown, setDropDown] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
     const searchRef = useRef(null);
-
+    const [openCart, setOpenCart] = useState(false);
+    const [openWishlist, setOpenWishlist] = useState(false);
     const handleSearchChange = (e) => {
         const term = e.target.value;
         setSearch(term);
@@ -112,14 +114,14 @@ export default function Header({ activeHeading }) {
                             </Link>
                         </div>
 
-                        <div className="relative cursor-pointer">
+                        <div className="relative cursor-pointer" onClick={() => setOpenWishlist(!openWishlist)}>
                             <AiOutlineHeart size={26} className="text-gray-700" />
                             <span className="absolute -right-1 -top-1 w-4 h-4 rounded-full bg-[#3bc177] text-white font-mono text-[12px] leading-4 text-center">
                                 0
                             </span>
                         </div>
 
-                        <div className="relative cursor-pointer">
+                        <div className="relative cursor-pointer" onClick={() => setOpenCart(!openCart)}>
                             <AiOutlineShoppingCart size={26} className="text-gray-700" />
                             <span className="absolute -right-1 -top-1 w-4 h-4 rounded-full bg-[#3bc177] text-white font-mono text-[12px] leading-4 text-center">
                                 1
@@ -142,6 +144,18 @@ export default function Header({ activeHeading }) {
                 </div>
             </div>
 
+            {/* {Cart POP Up} */}
+            {
+                openCart ? (
+                    <Cart setOpenCart={setOpenCart} />
+                ) : null
+            }
+            {/* {Wishlist POP Up} */}
+            {
+                openWishlist ? (
+                    <Wishlist setOpenWishlist={setOpenWishlist} />
+                ) : null
+            }
             {/* Categories + nav links: horizontal bar on lg+, drawer via hamburger below lg */}
             <div
                 className={`${active ? "shadow-sm fixed top-0 left-0 z-30" : "relative"
