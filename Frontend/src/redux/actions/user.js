@@ -16,6 +16,11 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: "LoadUserFail",
       payload: error.response.data.message,
-    });
+    })
   }
+};
+export const resetUser = () => (dispatch) => {
+  dispatch({
+    type: "ResetUser",
+  });
 };

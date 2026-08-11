@@ -11,15 +11,18 @@ import {
   FAQPage,
   CheckoutPage,
   PaymentPage,
-  OrderSuccessPage
+  OrderSuccessPage,
+  ProductDetailsPage,
+  ProfilePage,
 } from "./Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
 import { loadUser } from "./redux/actions/user.js";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./ProtectedRoute";
 function App() {
-  const { loading } = useSelector((state) => state.user);
+  const { loading, isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
     store.dispatch(loadUser()); // was: store.dispatch({ type: "user/getUser" })
   }, []);
@@ -34,12 +37,15 @@ function App() {
               <Route path="/log-in" element={<LoginPage />}></Route>
               <Route path="/sign-up" element={<SignUpPage />}></Route>
               <Route path="/products" element={<ProductsPage />}></Route>
+              <Route path="/product/:name" element={<ProductDetailsPage />}></Route>
               <Route path="/best-selling" element={<BestSellingPage />}></Route>
               <Route path="/events" element={<EventPage />}></Route>
               <Route path="/faq" element={<FAQPage />}></Route>
               <Route path="/checkout" element={<CheckoutPage />}></Route>
               <Route path="/payment" element={<PaymentPage />}></Route>
               <Route path="/order/success/:id" element={<OrderSuccessPage />} />
+              <Route path="/profile" element={
+                ProtectedRoute({ isAuthenticated, children: <ProfilePage /> })} />
               <Route
                 path="activation/:activation_token"
                 element={<Activation />}

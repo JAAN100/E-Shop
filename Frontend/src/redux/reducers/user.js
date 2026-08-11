@@ -18,5 +18,11 @@ export const userReducer = createReducer(initialState, (builder) => {
      state.loading = false;
     state.error = action.payload;
     state.isAuthenticated = false;
-    });
+    state.user = null;
+    })
+    .addCase("ResetUser", (state) => {
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.user = null;
+    })
 });

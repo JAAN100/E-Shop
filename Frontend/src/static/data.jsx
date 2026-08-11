@@ -334,7 +334,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyn6SszihRZ98Kkn2DoQjFmDXsYqsFKSF8QMvDJoCTBz03_1_d_L20D0b8&s=10",
       },
     ],
     shop: {
@@ -396,7 +396,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://www.fkick.pk/products/fk-040-mens-casual-monk-strap-shoes-tan-brown-pakistan?srsltid=AfmBOoqStbj9L-gDNCXenBBO5Hzxxrrxvu3ruXTZmLJhNbziZtx81lgV",
+        url: "https://cdn.shopify.com/s/files/1/0792/1280/6444/files/33_caf51e2c-c6d6-441c-a25f-9d4823e88cc5.jpg?v=1706881581",
       },
     ],
     shop: {
@@ -426,7 +426,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg",
+        url: "https://lunar.com.pk/cdn/shop/files/IMG-9198_83f7ad54-5436-48d2-bfa6-bb84dcb96e7a.png?v=1766498666&width=533",
       },
     ],
     shop: {
