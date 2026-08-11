@@ -42,27 +42,27 @@ export default function ProfileContent({ active }) {
                     <br />
                     <div className="w-full px-5">
                         <form action="" onSubmit={handleSubmit} aria-required={true}>
-                            <div className="w-full flex pb-3 ">
-                                <div className="w-[50%]">
+                            <div className="w-full block md:flex pb-3">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="fullName" className="block pb-2">
                                         Full Name
                                     </label>
                                     <input
                                         type="text"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-4 md:mb-0"
                                         id="fullName"
                                         required
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
-                                <div className="w-[50%]">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="email" className="block pb-2">
                                         Email
                                     </label>
                                     <input
                                         type="email"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
                                         id="email"
                                         required
                                         value={user?.email}
@@ -70,27 +70,27 @@ export default function ProfileContent({ active }) {
                                     />
                                 </div>
                             </div>
-                            <div className="w-full flex pb-3">
-                                <div className="w-[50%]">
+                            <div className="w-full block md:flex pb-3 ">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="phone" className="block pb-2">
                                         Phone Number
                                     </label>
                                     <input
                                         type="tel"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
                                         id="phone"
                                         required
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
                                 </div>
-                                <div className="w-[50%]">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="zipCode" className="block pb-2">
                                         Zip Code
                                     </label>
                                     <input
                                         type="text"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
                                         id="zipCode"
                                         required
                                         value={zipCode}
@@ -98,27 +98,27 @@ export default function ProfileContent({ active }) {
                                     />
                                 </div>
                             </div>
-                            <div className="w-full flex pb-3">
-                                <div className="w-[50%]">
+                            <div className="w-full block md:flex pb-3 ">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="address1" className="block pb-2">
                                         Address 1
                                     </label>
                                     <input
                                         type="text"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
                                         id="address1"
                                         required
                                         value={address1}
                                         onChange={(e) => setAddress1(e.target.value)}
                                     />
                                 </div>
-                                <div className="w-[50%]">
+                                <div className="w-[100%] md:w-[50%]">
                                     <label htmlFor="address2" className="block pb-2">
                                         Address 2
                                     </label>
                                     <input
                                         type="text"
-                                        className="w-[95%] border p-1 rounded-[5px]"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
                                         id="address2"
                                         required
                                         value={address2}

@@ -70,12 +70,11 @@ export default function AllOrders() {
         });
     });
     return (
-        <div className="pl-8 pt-1">
+        <div className="pl-8 pt-1 mx-3">
             <DataGrid
                 rows={row}
                 columns={columns}
                 pageSize={10}
-                rowsPerPageOptions={[]}
                 disableSelectionOnClick
                 autoHeight
             />

@@ -22,7 +22,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 function App() {
-  const { loading, isAuthenticated } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   useEffect(() => {
     store.dispatch(loadUser()); // was: store.dispatch({ type: "user/getUser" })
   }, []);
@@ -45,7 +45,10 @@ function App() {
               <Route path="/payment" element={<PaymentPage />}></Route>
               <Route path="/order/success/:id" element={<OrderSuccessPage />} />
               <Route path="/profile" element={
-                ProtectedRoute({ isAuthenticated, children: <ProfilePage /> })} />
+                <ProtectedRoute children={<ProfilePage />} />
+              } >
+              </Route>
+
               <Route
                 path="activation/:activation_token"
                 element={<Activation />}

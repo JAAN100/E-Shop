@@ -70,7 +70,7 @@ export default function TrackOrder() {
         });
     });
     return (
-        <div className="pl-8 pt-1">
+        <div className="pl-8 pt-1 mx-3">
             <DataGrid
                 rows={row}
                 columns={columns}
