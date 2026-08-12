@@ -30,13 +30,13 @@ export default function CountDown() {
     }, []);
 
     const timerComponents = Object.keys(timeLeft).map((interval) => (
-        <span key={interval} className="text-[25px] text-[#475ad2] font-Roboto">
+        <span key={interval} className="text-[16px] sm:text-[20px] lg:text-[25px] text-[#475ad2] font-Roboto">
             {timeLeft[interval]} {interval}{" "}
         </span>
     ));
 
     return (
-        <div>
+        <div className="flex flex-wrap items-baseline gap-x-1">
             {timerComponents.length ? timerComponents : <span className="text-[red] text-[25px]">Time's up!</span>}
         </div>
     );

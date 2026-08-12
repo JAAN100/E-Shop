@@ -196,8 +196,8 @@ const LogOut = () => {
             const data = await res.json();
             if (data.success === true) {
                 toast.success(data.message);
-                dispatch(resetUser())
-                navigate("/log-in");
+                dispatch(resetUser());
+                navigate("/");
             }
         } catch (error) {
             toast.error("Error logging out");

@@ -41,7 +41,10 @@ function App() {
               <Route path="/best-selling" element={<BestSellingPage />}></Route>
               <Route path="/events" element={<EventPage />}></Route>
               <Route path="/faq" element={<FAQPage />}></Route>
-              <Route path="/checkout" element={<CheckoutPage />}></Route>
+              <Route path="/checkout" element={
+                <ProtectedRoute children={<CheckoutPage />} />
+              }>
+              </Route>
               <Route path="/payment" element={<PaymentPage />}></Route>
               <Route path="/order/success/:id" element={<OrderSuccessPage />} />
               <Route path="/profile" element={

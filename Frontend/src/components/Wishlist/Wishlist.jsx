@@ -23,8 +23,8 @@ export default function Wishlist({ setOpenWishlist }) {
         },
     ];
     return (
-        <div className="fixed top-0 left-0 w-full h-screen bg-[#0000004b] z-35">
-            <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between">
+        <div className="fixed top-0 left-0 w-full h-screen bg-[#0000004b] z-35 overflow-y-scroll">
+            <div className="fixed top-0 right-0 min-h-full w-[80%] md:w-[35%] bg-white flex flex-col justify-between">
                 <div>
                     <div className="flex w-full justify-end pt-5 pr-5">
                         <RxCross1

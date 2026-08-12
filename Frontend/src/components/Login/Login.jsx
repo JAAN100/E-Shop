@@ -25,9 +25,9 @@ export default function Login() {
             });
             const data = await response.json();
             setLoading(false);
-            if (data.success === true) {
-                toast.success("Login Successful!");
+            if (data.success) {
                 dispatch(loadUser());
+                toast.success("Login Successful!");
                 navigate("/");
             } else {
                 toast.error(data.message);
