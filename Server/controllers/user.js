@@ -4,7 +4,7 @@ const bcryptjs = require("bcryptjs");
 const ErrorHandler = require("../utils/ErrorHandler");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/sendToken");
+const {sendToken} = require("../utils/sendToken");
 const createUser = catchAsyncErrors(async (req, res, next) => {
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
