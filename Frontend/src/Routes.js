@@ -12,19 +12,21 @@ import OrderSuccessPage from "./pages/OrderSuccessPage.jsx";
 import ProductDetailsPage from "./pages/ProductDetailsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ShopCreatePage from "./pages/ShopCreatePage.jsx";
+import ShopActivation from "./pages/ShopActivation.jsx";
 export {
-    LoginPage,
-    SignUpPage,
-    HomePage,
-    ProductsPage,
-    BestSellingPage,
-    EventPage,
-    FAQPage,
-    CheckoutPage,
-    PaymentPage,
-    OrderSuccessPage,
-    ProductDetailsPage,
-    ProfilePage,
-    ShopCreatePage,
-    Activation 
-}
+  LoginPage,
+  SignUpPage,
+  HomePage,
+  ProductsPage,
+  BestSellingPage,
+  EventPage,
+  FAQPage,
+  CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage,
+  ProductDetailsPage,
+  ProfilePage,
+  ShopCreatePage,
+  Activation,
+  ShopActivation,
+};

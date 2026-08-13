@@ -13,7 +13,7 @@ export default function Activation() {
 
         const activationEmail = async () => {
             try {
-                const res = await fetch("/api/user/activation", {
+                const res = await fetch("/api/shop/activation", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",

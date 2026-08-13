@@ -35,7 +35,7 @@ async function createShop(req, res, next) {
       avatarPublicId,
     };
     const activationToken = createActivationToken(shop);
-    const activationUrl = `${process.env.FRONT_URL}/activation/${activationToken}`;
+    const activationUrl = `${process.env.FRONT_URL}/shop-activation/${activationToken}`;
     try {
       await sendMail({
         email: shop.shopEmail,
@@ -83,7 +83,7 @@ const ActivationShop = catchAsyncErrors(async (req, res, next) => {
     } = newShop;
     let shop = await Shop.findOne({ shopEmail });
     if (shop) {
-      return next(new ErrorHandler("Not Found", 400));
+      return next(new ErrorHandler("Shop already exists", 400));
     }
     shop = await Shop.create({
       shopName,
@@ -101,7 +101,32 @@ const ActivationShop = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+const LoginShop = catchAsyncErrors(async (req , res , next)=>{
+   try {
+    const { shopEmail, shopPassword } = req.body;
+    const shop = await Shop.findOne({ shopEmail }).select("+shopPassword");
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "Wrong credentials",
+      });
+    }
+    const isPasswordValid = await bcryptjs.compare(shopPassword, shop.shopPassword);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Wrong credentials",
+      });
+    }
+    sendTokenForSeller(shop , 200, res);
+  } catch (error) {
+    error = new ErrorHandler(error.message, 500);
+    next(error);
+  }
+})
+
 module.exports = {
   createShop,
   ActivationShop,
+  LoginShop
 };

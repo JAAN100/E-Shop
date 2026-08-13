@@ -21,7 +21,7 @@ const sendTokenForSeller = (shop , statuscode , res) =>{
         httpOnly : true
     }
     
-    const {password : pass , ...rest} = shop._doc;    
+    const {shopPassword : pass , ...rest} = shop._doc;    
     res.status  (statuscode).cookie("token" , token , options).json({
         success : true,
         shop: rest,

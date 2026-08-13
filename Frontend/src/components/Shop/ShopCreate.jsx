@@ -11,7 +11,7 @@ export default function ShopCreate() {
     const [shopEmail, setShopEmail] = useState("");
     const [shopPassword, setShopPassword] = useState("");
     const [shopName, setShopName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState();
     const [shopAddress, setShopAddress] = useState("");
     const [zipCode, setZipCode] = useState();
     const [avatar, setAvatar] = useState(null);
@@ -23,27 +23,36 @@ export default function ShopCreate() {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await fetch("/api/user/log-in", {
+            const formData = new FormData();
+            formData.append("shopName", shopName);
+            formData.append("shopEmail", shopEmail);
+            formData.append("shopPassword", shopPassword);
+            formData.append("shopAddress", shopAddress);
+            formData.append("phoneNumber", phoneNumber);
+            formData.append("zipCode", zipCode);
+            if (avatar) {
+                formData.append("image", avatar);
+            }
+
+            const response = await fetch("/api/shop/create-shop", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email: shopEmail, password: shopPassword }),
+                body: formData,
             });
-            const data = await response.json();
             setLoading(false);
-            if (data.success) {
-                dispatch(loadUser());
-                toast.success("Login Successful!");
+            const data = await response.json();
+
+            if (data.success === true) {
+                toast.success(data.message);
                 navigate("/shop-login");
             } else {
-                toast.error(data.message);
+                toast.error(data.message || "Something went wrong");
             }
-        }
-        catch (err) {
+        } catch (err) {
+            console.error(err);
             toast.error("Something went wrong. Please try again.");
         }
-    }
+    };
+
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
         setAvatar(file);
