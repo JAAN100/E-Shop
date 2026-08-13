@@ -15,6 +15,7 @@ import {
   ProductDetailsPage,
   ProfilePage,
   ShopCreatePage,
+  ShopLoginPage,
   ShopActivation,
 } from "./Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
@@ -53,6 +54,8 @@ function App() {
                 <ProtectedRoute children={<ProfilePage />} />
               } >
               </Route>
+
+              {/* Shop Routes */}
               <Route path="/shop-create" element={<ShopCreatePage />}>
               </Route>
               <Route path="/shop-login" element={<ShopLoginPage />}></Route>

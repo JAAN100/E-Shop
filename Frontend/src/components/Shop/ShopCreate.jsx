@@ -254,7 +254,7 @@ export default function ShopCreate() {
                     <div className={`${styles.normalFlex} w-full mt-5 px-5`} >
                         <p className="text-gray-500 text-md">Already have an account?</p>
                         <Link to={"/shop-login"} className="text-sm ml-2 text-blue-600 hover:opacity-70">
-                            Sign In
+                            Login Your Account
                         </Link>
                     </div>
                 </div>

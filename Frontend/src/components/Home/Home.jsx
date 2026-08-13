@@ -6,7 +6,7 @@ import BestDeals from '../Route/BestDeals/BestDeals.jsx'
 import FeatureProduct from '../Route/FeatureProduct/FeatureProduct.jsx'
 import Events from '../Route/Events/Events.jsx'
 import Sponsored from '../Route/Sponsored/Sponsored.jsx'
-import Footer from '../Layout/Footer.jsx'
+import Footer from '../Layout/Footer.jsx';
 export default function Home() {
     return (
         <>
