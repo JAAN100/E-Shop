@@ -14,6 +14,7 @@ import {
   OrderSuccessPage,
   ProductDetailsPage,
   ProfilePage,
+  ShopCreatePage,
 } from "./Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -51,11 +52,13 @@ function App() {
                 <ProtectedRoute children={<ProfilePage />} />
               } >
               </Route>
-
+              <Route path="/shop-create" element={<ShopCreatePage />}>
+              </Route>
               <Route
                 path="activation/:activation_token"
                 element={<Activation />}
               ></Route>
+
             </Routes>
             <ToastContainer
               position="top-right"
