@@ -125,8 +125,28 @@ const LoginShop = catchAsyncErrors(async (req , res , next)=>{
   }
 })
 
+async function GetShop(req, res, next) {  
+  try {
+    const shop = await Shop.findById(req.shop.id);
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      shop,
+    });
+  } catch (error) {
+    error = new ErrorHandler(error.message, 500);
+    next(error);
+  }
+}
+
 module.exports = {
   createShop,
   ActivationShop,
-  LoginShop
+  LoginShop,
+  GetShop
 };

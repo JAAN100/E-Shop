@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { loadUser } from "../../redux/actions/user.js";
 import styles from "../../styles/styles";
 import { UserCircle } from "lucide-react";
+import { useEffect } from "react";
 export default function ShopCreate() {
     const dispatch = useDispatch();
     const [shopEmail, setShopEmail] = useState("");
@@ -67,7 +68,6 @@ export default function ShopCreate() {
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-[35rem]">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm-px-10 mx-3">
                     <form onSubmit={handleFormSubmit} className="space-y-6 px-4">
-
                         <div>
                             <label
                                 htmlFor="shopName"
@@ -247,13 +247,23 @@ export default function ShopCreate() {
                             </div>
                         </div>
 
-                        <button type="submit" className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85">
-                            {loading ? <LoaderCircle size={23} className="animate-spin mx-auto" /> : "Create Your Shop"}
+                        <button
+                            type="submit"
+                            className="font-semibold uppercase w-full bg-blue-700 text-white p-2 rounded-md cursor-pointer hover:opacity-85"
+                        >
+                            {loading ? (
+                                <LoaderCircle size={23} className="animate-spin mx-auto" />
+                            ) : (
+                                "Create Your Shop"
+                            )}
                         </button>
                     </form>
-                    <div className={`${styles.normalFlex} w-full mt-5 px-5`} >
+                    <div className={`${styles.normalFlex} w-full mt-5 px-5`}>
                         <p className="text-gray-500 text-md">Already have an account?</p>
-                        <Link to={"/shop-login"} className="text-sm ml-2 text-blue-600 hover:opacity-70">
+                        <Link
+                            to={"/shop-login"}
+                            className="text-sm ml-2 text-blue-600 hover:opacity-70"
+                        >
                             Login Your Account
                         </Link>
                     </div>

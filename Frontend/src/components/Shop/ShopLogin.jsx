@@ -3,8 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { loadUser } from "../../redux/actions/user.js";
+import { loadShop } from "../../redux/actions/user.js";
 import styles from "../../styles/styles";
+import 'react-toastify/dist/ReactToastify.css';
 export default function ShopLogin() {
     const dispatch = useDispatch();
     const [shopEmail, setShopEmail] = useState("");
@@ -26,8 +27,9 @@ export default function ShopLogin() {
             const data = await response.json();
             setLoading(false);
             if (data.success) {
+                await dispatch(loadShop());
                 toast.success("Login Successful!");
-                navigate("/shop");
+                navigate(`/dashboard`);
             } else {
                 toast.error(data.message);
             }

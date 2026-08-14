@@ -26,7 +26,7 @@ export default function Login() {
             const data = await response.json();
             setLoading(false);
             if (data.success) {
-                dispatch(loadUser());
+                await dispatch(loadUser());
                 toast.success("Login Successful!");
                 navigate("/");
             } else {

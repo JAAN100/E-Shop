@@ -99,7 +99,7 @@ export default function Header({ activeHeading }) {
                         {/* Become Seller + wishlist/cart/profile */}
                         <div className="order-3 sm:order-4 ml-auto sm:ml-0 flex items-center gap-3 md:gap-4">
                             <div className={`${styles.button}`}>
-                                <Link to={"shop-create"}>
+                                <Link to={"/shop-create"}>
                                     <h1 className="text-[#fff] flex items-center whitespace-nowrap">
                                         <span className="hidden sm:inline mr-1">Become Seller</span>
                                         <IoIosArrowForward />
@@ -291,7 +291,7 @@ export default function Header({ activeHeading }) {
                                     </div>
                                     <Navbar active={activeHeading} />
                                     <div className={`${styles.button} mx-3`}>
-                                        <Link to={"shop-create"}>
+                                        <Link to={"/shop-create"}>
                                             <h1 className="text-[#fff] flex items-center whitespace-nowrap">
                                                 <span className="inline mr-1">Become Seller</span>
                                                 <IoIosArrowForward />
