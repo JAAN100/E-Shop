@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  isSeller: false,
+  isLoading: true,
 };
 export const shopReducer = createReducer(initialState, (builder) => {
   builder
@@ -21,7 +21,7 @@ export const shopReducer = createReducer(initialState, (builder) => {
     })
     .addCase("ResetShop", (state) => {
       state.isSeller = false;
-      state.isLoading = false;
+      state.isLoading = true;
       state.shop = null;
     })
 });
