@@ -20,6 +20,7 @@ import Wishlist from "../Wishlist/Wishlist.jsx";
 import { RxCross1 } from "react-icons/rx";
 export default function Header({ activeHeading }) {
     const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+    const { isSeller } = useSelector((state) => state.seller);
     const [search, setSearch] = useState("");
     const [searchData, setSearchData] = useState(null);
     const [active, setActive] = useState(false);
@@ -101,7 +102,7 @@ export default function Header({ activeHeading }) {
                             <div className={`${styles.button}`}>
                                 <Link to={"/shop-create"}>
                                     <h1 className="text-[#fff] flex items-center whitespace-nowrap">
-                                        <span className="hidden sm:inline mr-1">Become Seller</span>
+                                        <span className="hidden sm:inline mr-1">{isSeller ? "Visit Shop" : "Become Seller"}</span>
                                         <IoIosArrowForward />
                                     </h1>
                                 </Link>
@@ -293,7 +294,7 @@ export default function Header({ activeHeading }) {
                                     <div className={`${styles.button} mx-3`}>
                                         <Link to={"/shop-create"}>
                                             <h1 className="text-[#fff] flex items-center whitespace-nowrap">
-                                                <span className="inline mr-1">Become Seller</span>
+                                                <span className="inline mr-1">{isSeller ? "Visit Shop" : "Become Seller"}</span>
                                                 <IoIosArrowForward />
                                             </h1>
                                         </Link>

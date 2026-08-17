@@ -19,6 +19,7 @@ import {
   ShopActivation,
   ShopHomePage,
   ShopDashboardPage,
+  ShopCreateProductPage,
 } from "./routes/Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -72,7 +73,9 @@ function App() {
           element={<ShopProtectedRoute children={<ShopDashboardPage />} />}
         ></Route>
 
-
+        <Route path="/dashboard-create-product" element={
+          <ShopProtectedRoute children={<ShopCreateProductPage />} />
+        } />
 
 
         {/* Activation Pages */}
