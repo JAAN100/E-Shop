@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { uploadImageMulter } = require("../middleware/multer");
-const uploadImage = require("../controllers/imageRoutes");
+const {uploadImage} = require("../controllers/imageRoutes");
 const {AuthenticateShop} = require("../middleware/auth");
 const {createShop , ActivationShop , LoginShop , GetShop} = require("../controllers/shop.controllers");
 

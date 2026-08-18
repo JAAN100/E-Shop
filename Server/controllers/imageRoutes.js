@@ -1,3 +1,4 @@
+const fs = require("fs");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { uploadCloudinary } = require("../utils/cloudinary");
 
@@ -23,4 +24,37 @@ async function uploadImage(req, res, next) {
     }
 }
 
-module.exports = uploadImage;
+
+async function uploadImages(req, res, next) {
+    try {
+        // .array() puts files on req.files (plural array), not req.file
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "No files uploaded"
+            });
+        }
+
+        const uploadResults = await Promise.all(
+            req.files.map(async (file) => {
+                const result = await uploadCloudinary(file.path, "mern-project");
+
+                // temp file already lives on Cloudinary now — delete the local copy
+                fs.unlink(file.path, (err) => {
+                    if (err) console.error("Failed to remove temp upload:", file.path, err);
+                });
+
+                return { url: result.url, public_id: result.public_id };
+            })
+        );
+
+        // available in req.body.images inside createShop
+        req.body.images = uploadResults;
+        next();
+    } catch (err) {
+        next(new ErrorHandler(err.message, 500));
+    }
+}
+
+
+module.exports = { uploadImage, uploadImages };
