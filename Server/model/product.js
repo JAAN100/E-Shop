@@ -15,7 +15,6 @@ const productSchema = new Schema({
     },
     tags:{
         type: String,
-        required: [true , "Please enter your product"]
     },
     originalPrice:{
         type:Number,

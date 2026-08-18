@@ -5,8 +5,11 @@ import { useDispatch } from "react-redux";
 import { categoriesData } from "../../static/data.jsx";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { createProduct } from "../../redux/actions/product.js";
+import { toast } from "react-toastify";
 export default function CreateProduct() {
     const { shop } = useSelector((state) => state.seller);
+    const { success, error } = useSelector((state) => state.products);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -19,16 +22,46 @@ export default function CreateProduct() {
     const [discountPrice, setDiscountPrice] = React.useState("");
     const [stock, setStock] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error);
+        }
+        if (success) {
+            setLoading(false);
+            toast.success("Product created successfully");
+            dispatch({ type: "ProductCreateReset" });
+            navigate("/dashboard");
+        }
+    }, [dispatch, error, success]);
+
     const handleImageChange = (e) => {
         e.preventDefault();
-        let files = Array.from(e.target.files);
+        const files = Array.from(e.target.files);
         setImages((prevImages) => [...prevImages, ...files]);
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (images.length === 0) {
+            toast.error("Please upload at least one product image");
+            return;
+        }
+
+        const formData = new FormData();
+        images.forEach((file) => formData.append("images", file));
+        formData.append("productName", productName);
+        formData.append("description", description);
+        formData.append("category", category);
+        formData.append("tags", tags);
+        formData.append("originalPrice", originalPrice);
+        formData.append("discountPrice", discountPrice);
+        formData.append("stock", stock);
+        setLoading(true);
+        await dispatch(createProduct(formData));
+    };
     return (
         <div className="w-[90%] md:w-[70%] bg-[#fff] shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
             <h5 className="text-[20px] md:text-[25px] lg:text-[30px] font-bold font-Poppins text-center">
@@ -192,7 +225,7 @@ export default function CreateProduct() {
                     </div>
                     <br />
                     <div>
-                        <input type="submit" value="Create Product" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full" />
+                        <input type="submit" value={loading ? "Creating..." : "Create Product"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full" />
                     </div>
                 </div>
             </form>

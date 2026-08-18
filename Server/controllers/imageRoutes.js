@@ -41,7 +41,7 @@ async function uploadImages(req, res, next) {
 
                 // temp file already lives on Cloudinary now — delete the local copy
                 fs.unlink(file.path, (err) => {
-                    if (err) console.error("Failed to remove temp upload:", file.path, err);
+                    //if (err) console.error("Failed to remove temp upload:", file.path, err);
                 });
 
                 return { url: result.url, public_id: result.public_id };
