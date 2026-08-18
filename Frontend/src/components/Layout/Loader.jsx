@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLottie } from "lottie-react";
-import animationData from "../../assets/animations/Loading-sand-clock.json";
+import animationData from "../../assets/animations/Shopping-Cart-Loader.json";
 
 export default function Loader() {
   return (

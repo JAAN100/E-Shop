@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
+import Loader from '../components/Layout/Loader.jsx'
 import SignUp from '../components/SignUp/SignUp';
 function SignUpPage() {
     const { isAuthenticated, loading } = useSelector((state) => state.user);
@@ -15,7 +16,7 @@ function SignUpPage() {
     }, [loading, isAuthenticated, navigate]);
 
     if (loading || isAuthenticated) {
-        return <LoaderCircle className="h-[100vh] m-auto animate-spin" size={60} />;
+        return <Loader />
     }
     return (
         <div>
