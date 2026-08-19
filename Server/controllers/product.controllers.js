@@ -34,4 +34,23 @@ const CreateProduct = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-module.exports = { CreateProduct };
+const GetProducts = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const params = req.params.id;
+    const products = await Product.find({ shopID: params });
+    if (!products) {
+      return res.status(404).json({
+        success: false,
+        message: "Products not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+})
+
+module.exports = { CreateProduct, GetProducts };

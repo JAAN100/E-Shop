@@ -19,7 +19,7 @@ const AuthenticateShop = catchAsyncErrors(async (req, res, next) => {
   if(!shop_token) {
     return next(new ErrorHandler("Please login to access this resource", 401));
   }
-
+  
   const decodedData = jwt.verify(shop_token, process.env.JWT_SECRET);
   
   req.shop = await Shop.findById(decodedData.id);
