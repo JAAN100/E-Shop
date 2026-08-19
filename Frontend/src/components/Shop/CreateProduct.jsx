@@ -63,7 +63,7 @@ export default function CreateProduct() {
         await dispatch(createProduct(formData));
     };
     return (
-        <div className="w-[90%] md:w-[70%] bg-[#fff] shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
+        <div className="w-[95%] sm:w-[90%] md:w-[70%] bg-[#fff] shadow h-[85vh] md:h-[80vh] rounded-[4px] p-3 mx-auto overflow-y-scroll">
             <h5 className="text-[20px] md:text-[25px] lg:text-[30px] font-bold font-Poppins text-center">
                 Create Product
             </h5>
@@ -219,7 +219,7 @@ export default function CreateProduct() {
                                 key={`${image.name}-${image.lastModified}-${index}`}
                                 src={URL.createObjectURL(image)}
                                 alt={`Image ${index + 1}`}
-                                className="h-[120px] w-[120px] object-cover rounded-[4px] m-2"
+                                className="h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] object-cover rounded-[4px] m-2"
                             />
                         ))}
                     </div>

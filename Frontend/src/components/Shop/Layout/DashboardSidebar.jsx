@@ -10,10 +10,10 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
 export default function DashboardSidebar({ active }) {
     return (
-        <div className="w-full h-[89vh] bg-white shadow-sm overflow-y-scroll sticky top-0 left-0 z-10">
+        <div className="w-full h-[calc(100vh-80px)] bg-white shadow-sm overflow-y-scroll sticky top-[80px] left-0 z-10">
             {/* Single Item */}
             <div className="w-full flex items-center p-4">
-                <Link to="/dashboard" className="w-full flex items-center">
+                <Link to="/dashboard" className="w-full flex items-center justify-center md:justify-start">
                     <RxDashboard size={30} color={active === 1 ? "crimson" : "#555"} title="Dashboard" />
                     <h5
                         className={`pl-2 text-[18px] font-[400] ${active === 1 ? "text-[crimson]" : "text-[#555]"} md:block hidden`}

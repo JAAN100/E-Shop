@@ -1,9 +1,27 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 export default function ShopInfo({ isOwner }) {
     const { shop } = useSelector((state) => state.seller);
-    const logoutHandler = () => {
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const logoutHandler = async () => {
+        try {
+            const data = await fetch("/api/shop/logout-shop", {
+                method: "POST",
+                credentials: "include"
+            });
+            const response = await data.json();
+            if (response.success) {
+                toast.success(response.message);
+                await dispatch({ type: "ResetShop" });
+                navigate("/");
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
     return (
         <div>

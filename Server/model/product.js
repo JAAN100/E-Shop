@@ -24,7 +24,8 @@ const productSchema = new Schema({
         required:[true,"Please Enter your product price"]
     },
     stock:{
-        type:Number
+        type:Number,
+        required:[true,"Please enter product stock"],
     },
     images: [
     {

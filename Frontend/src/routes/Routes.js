@@ -17,6 +17,7 @@ import ShopLoginPage from "../pages/ShopLoginPage.jsx"
 import ShopHomePage from  "../pages/ShopHomePage.jsx";
 import ShopDashboardPage from "../pages/ShopDashboardPage.jsx";
 import ShopCreateProductPage from "../pages/ShopCreateProductPage.jsx";
+import ShopProductsPage from "../pages/ShopProductsPage.jsx";
 // User Routes
 export {
   LoginPage,
@@ -42,4 +43,5 @@ export{
   ShopHomePage,
   ShopDashboardPage,
   ShopCreateProductPage,
+  ShopProductsPage
 };

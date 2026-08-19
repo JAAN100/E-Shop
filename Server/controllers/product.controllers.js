@@ -21,6 +21,7 @@ const CreateProduct = catchAsyncErrors(async (req, res, next) => {
       tags,
       originalPrice,
       discountPrice,
+      stock,
       shopID: req.shop._id,
       images,
     });
@@ -51,6 +52,21 @@ const GetProducts = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
-
-module.exports = { CreateProduct, GetProducts };
+});
+const DeleteProduct = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+module.exports = { CreateProduct, GetProducts, DeleteProduct };

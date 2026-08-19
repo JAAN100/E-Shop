@@ -19,10 +19,32 @@ export const productReducer = createReducer(initialState , (builder)=>{
             state.error = action.payload;
             state.success = false;
         })
+        .addCase("GetAllProductsRequest" , (state , action)=>{
+            state.isLoading = true;
+        })
+        .addCase("GetAllProductsSuccess" , (state , action)=>{            
+            state.isLoading = false,
+            state.products = action.payload;
+        })
+        .addAsyncThunk("GetAllProductsFail" , (state , action)=>{
+            state.isLoading = false;
+            state.error = action.payload;   
+        })
         .addCase("ClearErrors" , (state)=>{
             state.error = null;
         })
         .addCase("ProductCreateReset" , (state)=>{
             state.success = false;
+        })
+        .addCase("DeleteProductRequest" , (state , action)=>{
+            state.isLoading = true;
+        })
+        .addCase("DeleteProductSuccess" , (state , action)=>{
+            state.isLoading = false,
+            state.message = action.payload;
+        })
+        .addCase("DeleteProductFail" , (state , action)=>{
+            state.isLoading = false;
+            state.error = action.payload;
         })
 })

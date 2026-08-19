@@ -144,9 +144,25 @@ async function GetShop(req, res, next) {
   }
 }
 
+const LogoutShop = catchAsyncErrors(async (req, res, next) => {
+  try {
+    res.clearCookie("shop_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+})
 module.exports = {
   createShop,
   ActivationShop,
   LoginShop,
-  GetShop
+  GetShop,
+  LogoutShop
 };
