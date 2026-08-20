@@ -4,47 +4,49 @@ const initialState = {
     isLoading: true,
 }
 
-export const productReducer = createReducer(initialState , (builder)=>{
+export const eventReducer = createReducer(initialState , (builder)=>{
     builder
-        .addCase("ProductCreateRequest" , (state , action)=>{
+        .addCase("EventCreateRequest" , (state , action)=>{
             state.isLoading = true;
         })
-        .addCase("ProductCreateSuccess" , (state , action)=>{
+        .addCase("EventCreateSuccess" , (state , action)=>{
             state.isLoading = false,
-            state.product = action.payload;
+            state.event = action.payload;
             state.success = true;
         })
-        .addCase("ProductCreateFail" , (state , action)=>{
+        .addCase("EventCreateFail" , (state , action)=>{
             state.isLoading = false;
             state.error = action.payload;
             state.success = false;
         })
-        .addCase("GetAllProductsRequest" , (state , action)=>{
+        .addCase("GetAllEventsRequest" , (state , action)=>{
             state.isLoading = true;
         })
-        .addCase("GetAllProductsSuccess" , (state , action)=>{            
+        .addCase("GetAllEventsSuccess" , (state , action)=>{            
             state.isLoading = false,
-            state.products = action.payload;
+            state.events = action.payload;
         })
-        .addCase("GetAllProductsFail" , (state , action)=>{
+        .addCase("GetAllEventsFail" , (state , action)=>{
             state.isLoading = false;
             state.error = action.payload;   
         })
         .addCase("ClearErrors" , (state)=>{
             state.error = null;
         })
-        .addCase("ProductCreateReset" , (state)=>{
+        .addCase("EventCreateReset" , (state)=>{
             state.success = false;
         })
-        .addCase("DeleteProductRequest" , (state , action)=>{
+        .addCase("DeleteEventRequest" , (state , action)=>{
             state.isLoading = true;
-        })
-        .addCase("DeleteProductSuccess" , (state , action)=>{
+    })
+        .addCase("DeleteEventSuccess" , (state , action)=>{
             state.isLoading = false,
             state.message = action.payload;
         })
-        .addCase("DeleteProductFail" , (state , action)=>{
+        .addCase("DeleteEventFail" , (state , action)=>{
             state.isLoading = false;
             state.error = action.payload;
+            state.deleteSuccess = false;
         })
+        
 })

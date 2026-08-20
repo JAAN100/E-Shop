@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react'
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { categoriesData } from "../../static/data.jsx";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { createProduct } from "../../redux/actions/product.js";
+import { createEvent } from "../../redux/actions/event.js";
 import { toast } from "react-toastify";
-export default function CreateProduct() {
-    const { success, error } = useSelector((state) => state.products);
+export default function CreateEvent() {
+    const { success, error } = useSelector((state) => state.events);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -22,15 +22,30 @@ export default function CreateProduct() {
     const [stock, setStock] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [startDate, setStartDate] = React.useState("");
+    const [finishDate, setFinishDate] = React.useState("");
+    const today = new Date().toISOString().slice(0, 10);
+    const minEndDate = startDate ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10) : today;
+    const handleStartDateChange = (e) => {
+        const startDate = new Date(e.target.value);
+        const minEnd = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+        setStartDate(startDate);
+        setFinishDate("");
+        document.getElementById("finishDate").min = minEnd.toISOString().slice(0, 10);
+    }
 
+    const handleFinishDateChange = (e) => {
+        const finishDate = new Date(e.target.value);
+        setFinishDate(finishDate);
+    }
     React.useEffect(() => {
         if (error) {
             toast.error(error);
         }
         if (success) {
             setLoading(false);
-            toast.success("Product created successfully");
-            dispatch({ type: "ProductCreateReset" });
+            toast.success("Event created successfully");
+            dispatch({ type: "EventCreateReset" });
             navigate("/dashboard");
         }
     }, [dispatch, error, success]);
@@ -58,13 +73,15 @@ export default function CreateProduct() {
         formData.append("originalPrice", originalPrice);
         formData.append("discountPrice", discountPrice);
         formData.append("stock", stock);
+        formData.append("start_Date", startDate.toISOString());
+        formData.append("finish_Date", finishDate.toISOString());
         setLoading(true);
-        await dispatch(createProduct(formData));
+        await dispatch(createEvent(formData));
     };
     return (
         <div className="w-[95%] sm:w-[90%] md:w-[70%] bg-[#fff] shadow h-[85vh] md:h-[80vh] rounded-[4px] p-3 mx-auto overflow-y-scroll">
             <h5 className="text-[20px] md:text-[25px] lg:text-[30px] font-bold font-Poppins text-center">
-                Create Product
+                Create Event
             </h5>
             {/* Create Product Form */}
             <form onSubmit={handleSubmit}>
@@ -75,7 +92,7 @@ export default function CreateProduct() {
                     </label>
                     <input
                         className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
-                        placeholder="Enter your product name"
+                        placeholder="Enter your event product name"
                         type="text"
                         name="productName"
                         value={productName}
@@ -145,7 +162,7 @@ export default function CreateProduct() {
                     </label>
                     <input
                         className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
-                        placeholder="Enter product tags"
+                        placeholder="Enter event product tags"
                         type="text"
                         name="tags"
                         value={tags}
@@ -159,7 +176,7 @@ export default function CreateProduct() {
                     </label>
                     <input
                         className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
-                        placeholder="Enter original price"
+                        placeholder="Enter event product original price"
                         type="number"
                         name="originalPrice"
                         value={originalPrice}
@@ -178,7 +195,7 @@ export default function CreateProduct() {
                     </label>
                     <input
                         className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
-                        placeholder="Enter discounted price"
+                        placeholder="Enter event product discounted price"
                         type="number"
                         name="discountPrice"
                         value={discountPrice}
@@ -198,7 +215,7 @@ export default function CreateProduct() {
                     </label>
                     <input
                         className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
-                        placeholder="Enter product stock"
+                        placeholder="Enter event product stock"
                         type="number"
                         name="stock"
                         value={stock}
@@ -208,6 +225,40 @@ export default function CreateProduct() {
                                 setStock(value);
                             }
                         }}
+                        required
+                    />
+                </div>
+                <br />
+                <div>
+                    <label htmlFor="startDate" className="pb-2">
+                        Event Start Date <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
+                        placeholder="Enter event start date"
+                        type="date"
+                        name="startDate"
+                        id="startDate"
+                        value={startDate ? startDate.toISOString().slice(0, 10) : ""}
+                        onChange={handleStartDateChange}
+                        min={today}
+                        required
+                    />
+                </div>
+                <br />
+                <div>
+                    <label htmlFor="finishDate" className="pb-2">
+                        Event End Date <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        className="sm:text-sm mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-md placeholder:text-gray-400 focus:border-blue-600"
+                        placeholder="Enter event end date"
+                        type="date"
+                        name="finishDate"
+                        id="finishDate"
+                        value={finishDate ? finishDate.toISOString().slice(0, 10) : ""}
+                        onChange={handleFinishDateChange}
+                        min={minEndDate}
                         required
                     />
                 </div>
@@ -239,7 +290,7 @@ export default function CreateProduct() {
                     </div>
                     <br />
                     <div>
-                        <input type="submit" value={loading ? "Creating..." : "Create Product"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full" />
+                        <input type="submit" value={loading ? "Creating..." : "Create Event"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer w-full" />
                     </div>
                 </div>
             </form>
