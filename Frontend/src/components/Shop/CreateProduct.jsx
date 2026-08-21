@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { categoriesData } from "../../static/data.jsx";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiOutlineClose } from "react-icons/ai";
 import { createProduct } from "../../redux/actions/product.js";
 import { toast } from "react-toastify";
 export default function CreateProduct() {
@@ -229,12 +229,22 @@ export default function CreateProduct() {
                     </label>
                     <div className="flex flex-wrap items-center w-full">
                         {images?.map((image, index) => (
-                            <img
-                                key={`${image.name}-${image.lastModified}-${index}`}
-                                src={URL.createObjectURL(image)}
-                                alt={`Image ${index + 1}`}
-                                className="h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] object-cover rounded-[4px] m-2"
-                            />
+                            <div key={`${image.name}-${image.lastModified}-${index}`} className="relative m-2">
+                                <img
+                                    src={URL.createObjectURL(image)}
+                                    alt={`Image ${index + 1}`}
+                                    className="h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] object-cover rounded-[4px]"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+                                    }}
+                                    className="absolute -top-2 -right-2 bg-white rounded-full shadow p-1 cursor-pointer hover:bg-gray-100"
+                                >
+                                    <AiOutlineClose size={14} color="#555" />
+                                </button>
+                            </div>
                         ))}
                     </div>
                     <br />

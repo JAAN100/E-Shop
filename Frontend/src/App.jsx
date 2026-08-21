@@ -23,6 +23,7 @@ import {
   ShopProductsPage,
   ShopCreateEventPage,
   ShopEventsPage,
+  ShopAllCoupons
 } from "./routes/Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -91,6 +92,10 @@ function App() {
         <Route path="/dashboard-events" element={
           <ShopProtectedRoute children={<ShopEventsPage />} />
         } />
+        <Route path="/dashboard-coupons" element={
+          <ShopProtectedRoute children={<ShopAllCoupons />} />
+        } />
+
 
         {/* Activation Pages */}
         <Route
@@ -101,6 +106,7 @@ function App() {
           path="/shop-activation/:activation_token"
           element={<ShopActivation />}
         ></Route>
+
       </Routes>
       <ToastContainer
         position="top-right"

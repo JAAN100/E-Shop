@@ -5,6 +5,7 @@ const userRoute = require("./routes/user");
 const shopRoute = require("./routes/shop");
 const productRoute = require("./routes/product");
 const eventRoute = require("./routes/event");
+const coupounCodeRoute = require("./routes/coupounCode");
 const cors = require("cors");
 
 
@@ -21,6 +22,8 @@ app.use("/api/shop", shopRoute);
 app.use("/api/product" , productRoute);
 
 app.use("/api/event" , eventRoute);
+
+app.use("/api/coupoun-code" , coupounCodeRoute);
 // The error handler must be registered LAST, after every route.
 // Express matches middleware in order — an error thrown in a route
 // can only be caught by error handlers that come after it in the stack.

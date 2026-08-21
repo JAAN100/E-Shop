@@ -21,8 +21,9 @@ const AuthenticateShop = catchAsyncErrors(async (req, res, next) => {
   }
   
   const decodedData = jwt.verify(shop_token, process.env.JWT_SECRET);
-  
+
   req.shop = await Shop.findById(decodedData.id);
+ 
   next();
 });
 
