@@ -23,18 +23,39 @@ export const createEvent = (formData) => async (dispatch) => {
   }
 };
 
-export const getAllEvents = (id) => async (dispatch) => {  
+export const getAllEventsForShop = (id) => async (dispatch) => {  
   try {
     dispatch({
-      type: "GetAllEventsRequest",
+      type: "GetAllEventsForShopRequest",
     });
     const { data } = await axios.get(`/api/event/get-all-events/${id}`, {
       withCredentials: true,
     });
+    console.log(data);
     
     dispatch({
-      type: "GetAllEventsSuccess",
+      type: "GetAllEventsForShopSuccess",
       payload: data.events,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GetAllEventsForShopFail",
+      payload: error.response.data.error,
+    });
+  }
+}
+
+export const getAllEvents = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GetAllEventsRequest",
+    });
+    const { data } = await axios.get("/api/event/get-events", {
+      withCredentials: true,
+    });
+    dispatch({
+      type: "GetAllEventsSuccess",
+      payload: data.allEvents,
     });
   } catch (error) {
     dispatch({
@@ -43,7 +64,6 @@ export const getAllEvents = (id) => async (dispatch) => {
     });
   }
 }
-
 
 export const deleteEvent = (id) => async (dispatch) => {
    try {

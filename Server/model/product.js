@@ -39,9 +39,12 @@ const productSchema = new Schema({
         }
     }
     ],
-    shopID :{
-        type: Schema.Types.ObjectId,
-        ref: "Shop"
+    shop :{
+        type: Object,
+    },
+    shopId: {
+        type: String,
+        required: true,
     },
     sold_out:{
         type:Number,

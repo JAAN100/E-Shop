@@ -1,33 +1,45 @@
-import React from "react";
-import Product from "../Route/ProductCard/Product.jsx";
-import { productData } from "../../static/data.jsx";
-import { Link } from "react-router-dom";
-export default function ShopProfileData({ isOwner }) {
-    const [active, setActive] = React.useState(1);
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { getAllProductsForShop } from "../../redux/actions/product";
+import styles from "../../styles/styles";
+import Product from "../Route/ProductCard/Product";
+
+const ShopProfileData = ({ isOwner }) => {
+    const { products } = useSelector((state) => state.products);
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAllProductsForShop(id));
+    }, [dispatch])
+
+
+    const [active, setActive] = useState(1);
     return (
         <div className="w-full">
-            <div className="md:flex w-full items-center justify-between">
-                <div className="flex items-center w-full">
-                    <div className="flex items-center">
+            <div className="flex w-full items-center justify-between">
+                <div className="w-full flex">
+                    <div className="flex items-center" onClick={() => setActive(1)}>
                         <h5
-                            className={`${active === 1 ? "text-red-500" : "text-[#333]"} font-[600] text-[16px] md:text-[20px] cursor-pointer pr-[20px]`}
-                            onClick={() => setActive(1)}
+                            className={`font-[600] text-[20px] ${active === 1 ? "text-red-500" : "text-[#333]"
+                                } cursor-pointer pr-[20px]`}
                         >
                             Shop Products
                         </h5>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center" onClick={() => setActive(2)}>
                         <h5
-                            className={`${active === 2 ? "text-red-500" : "text-[#333]"} font-[600] text-[16px] md:text-[20px] cursor-pointer pr-[20px]`}
-                            onClick={() => setActive(2)}
+                            className={`font-[600] text-[20px] ${active === 2 ? "text-red-500" : "text-[#333]"
+                                } cursor-pointer pr-[20px]`}
                         >
                             Running Events
                         </h5>
                     </div>
-                    <div className="flex items-center">
+
+                    <div className="flex items-center" onClick={() => setActive(3)}>
                         <h5
-                            className={`${active === 3 ? "text-red-500" : "text-[#333]"} font-[600] text-[16px] md:text-[20px] cursor-pointer pr-[20px]`}
-                            onClick={() => setActive(3)}
+                            className={`font-[600] text-[20px] ${active === 3 ? "text-red-500" : "text-[#333]"
+                                } cursor-pointer pr-[20px]`}
                         >
                             Shop Reviews
                         </h5>
@@ -36,23 +48,36 @@ export default function ShopProfileData({ isOwner }) {
                 <div>
                     {
                         isOwner && (
-                            <Link to="/dashboard">
-                                <div className="w-[100px] md:w-[150px] bg-black h-[40px] md:h-[50px] my-3 flex items-center justify-center rounded-lg md:rounded-xl cursor-pointer">
-                                    <span className="text-[#fff] text-[12px] md:text-[16px] font-[600]">
-                                        Go to Dashboard
-                                    </span>
-                                </div>
-                            </Link>
+                            <div>
+                                <Link to="/dashboard">
+                                    <div className={`${styles.button} !rounded-[4px] h-[42px]`}>
+                                        <span className="text-[#fff]">Go Dashboard</span>
+                                    </div>
+                                </Link>
+                            </div>
                         )
                     }
                 </div>
             </div>
+
             <br />
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-12 border-0">
-                {productData && productData.map((i, index) => {
-                    return <Product data={i} key={index} isShop={true} />
-                })}
+                {
+                    products &&
+                    products.map((i, index) => (
+                        <Product data={i} key={index} isShop={true} />
+                    ))
+                }
             </div>
+            {
+                products && products.length === 0 && (
+                    <h5 className="w-full text-center py-5 text-[18px]">
+                        No Products have for this shop!
+                    </h5>
+                )
+            }
         </div>
     );
-}
+};
+
+export default ShopProfileData;

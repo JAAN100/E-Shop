@@ -159,10 +159,32 @@ const LogoutShop = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 })
+
+const GetShopWithID = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.params.id);
+    console.log(shop);
+    
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      shop,
+    });
+  } catch (error) {
+    error = new ErrorHandler(error.message, 500);
+    next(error);
+  }
+});
 module.exports = {
   createShop,
   ActivationShop,
   LoginShop,
   GetShop,
-  LogoutShop
+  LogoutShop,
+  GetShopWithID
 };

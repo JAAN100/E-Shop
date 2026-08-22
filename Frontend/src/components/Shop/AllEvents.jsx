@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getAllEvents, deleteEvent } from '../../redux/actions/event.js'
+import { getAllEventsForShop, deleteEvent } from '../../redux/actions/event.js'
 import { AiOutlineEye, AiOutlineDelete } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import Loader from '../Layout/Loader.jsx'
@@ -14,7 +14,7 @@ export default function AllEvents() {
     const dispatch = useDispatch();
     const handleDeleteEvent = async (id) => {
         await dispatch(deleteEvent(id));
-        await dispatch(getAllEvents(shop._id));
+        await dispatch(getAllEventsForShop(shop._id));
 
         if (message) {
             toast.success(message)
@@ -25,7 +25,7 @@ export default function AllEvents() {
     }
     useEffect(() => {
         if (shop?._id) {
-            dispatch(getAllEvents(shop._id));
+            dispatch(getAllEventsForShop(shop._id));
         }
     }, [dispatch, shop]);
     const columns = [

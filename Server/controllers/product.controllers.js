@@ -22,7 +22,8 @@ const CreateProduct = catchAsyncErrors(async (req, res, next) => {
       originalPrice,
       discountPrice,
       stock,
-      shopID: req.shop._id,
+      shopId: req.shop._id,
+      shop: req.shop,
       images,
     });
     res.status(201).json({
@@ -38,7 +39,7 @@ const CreateProduct = catchAsyncErrors(async (req, res, next) => {
 const GetProducts = catchAsyncErrors(async (req, res, next) => {
   try {
     const params = req.params.id;
-    const products = await Product.find({ shopID: params });
+    const products = await Product.find({ shopId: params });    
     if (!products) {
       return res.status(404).json({
         success: false,
@@ -69,4 +70,23 @@ const DeleteProduct = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
-module.exports = { CreateProduct, GetProducts, DeleteProduct };
+
+const GetAllProducts = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const allProducts = await Product.find();
+    if (!allProducts) {
+      return res.status(404).json({
+        success: false,
+        message: "Products not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      allProducts,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+module.exports = { CreateProduct, GetProducts, DeleteProduct , GetAllProducts };

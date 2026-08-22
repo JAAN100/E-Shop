@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { DeleteCoupounCode } from "../../redux/actions/coupons.js";
-import { getAllProducts } from "../../redux/actions/product.js";
+import { getAllProductsForShop } from "../../redux/actions/product.js";
 export default function ShopCoupouns() {
     const { products } = useSelector((state) => state.products);
     const { shop } = useSelector((state) => state.seller);
@@ -63,7 +63,7 @@ export default function ShopCoupouns() {
     }
     useEffect(() => {
         if (shop?._id) {
-            dispatch(getAllProducts(shop._id));
+            dispatch(getAllProductsForShop(shop._id));
         }
         dispatch(GetCoupounCode());
     }, [dispatch]);

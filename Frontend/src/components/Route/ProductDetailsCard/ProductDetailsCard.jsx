@@ -1,10 +1,14 @@
 import React from "react";
 import { RxCross1 } from "react-icons/rx";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AiOutlineMessage, AiOutlineHeart, AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 export default function ProductDetailsCard({ setOpen, data }) {
     const [count, setCount] = React.useState(1);
     const [click, setClick] = React.useState(false);
-    // [select, setSelect] = React.useState(false);
+    const [shopData, setShopData] = React.useState(null);
+
     const handleMessageSubmit = () => {
 
     }
@@ -20,14 +24,14 @@ export default function ProductDetailsCard({ setOpen, data }) {
                         />
                         <div className="block w-full md:flex">
                             <div className="w-full md:w-[40%]">
-                                <img src={data.image_Url[0].url} alt={data.name} />
+                                <img src={data.images[0].url} alt={data.productName} />
                                 <div className="flex">
-                                    <img src={data.shop.shop_avatar.url} alt=""
+                                    <img src={data.shop.avatar} alt=""
                                         className="w-[50px] h-[50px] rounded-full mr-2"
                                     />
                                     <div>
                                         <h3 className="pt-3 text-[18px] text-blue-400 pb-3">
-                                            {data.shop.name}
+                                            {data.shop.shopName}
                                         </h3>
                                         <h5 className="pb-3 text-[15px] text-gray-500">
                                             ({data.shop.ratings}) Ratings
@@ -43,13 +47,13 @@ export default function ProductDetailsCard({ setOpen, data }) {
                                     </span>
                                 </div>
                                 <h5 className="text-[16px] text-[red] mt-5">
-                                    ({data.total_sell}) Sold Out
+                                    ({data.sold_out}) Sold Out
                                 </h5>
 
                             </div>
                             <div className="w-full md:w-[60%] px-[5px] pt-5">
                                 <h1 className="text-[20px] font-[600] font-Roboto text-[#333]">
-                                    {data.name}
+                                    {data.productName}
                                 </h1>
                                 <p className="text-[15px] text-gray-500 mt-2">
                                     {data.description}
@@ -57,9 +61,9 @@ export default function ProductDetailsCard({ setOpen, data }) {
 
                                 <div className="pt-3 flex">
                                     <h4 className="font-bold text-[18px] text-[#333] font-Roboto">
-                                        ${data.discount_price}
+                                        ${data.discountPrice}
                                     </h4>
-                                    <h3 className="font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through">{data.price ? data.price + "$" : null}</h3>
+                                    <h3 className="font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through">{data.originalPrice ? data.originalPrice + "$" : null}</h3>
                                 </div>
                                 <div>
                                     <div className="flex items-center mt-12 justify-between pr-3 text-[16px]">

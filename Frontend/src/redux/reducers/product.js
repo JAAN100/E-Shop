@@ -19,12 +19,23 @@ export const productReducer = createReducer(initialState , (builder)=>{
             state.error = action.payload;
             state.success = false;
         })
+        .addCase("GetAllProductsForShopRequest" , (state , action)=>{
+            state.isLoading = true;
+        })
+        .addCase("GetAllProductsForShopSuccess" , (state , action)=>{            
+            state.isLoading = false,
+            state.products = action.payload;
+        })
+        .addCase("GetAllProductsForShopFail" , (state , action)=>{
+            state.isLoading = false;
+            state.error = action.payload;   
+        })
         .addCase("GetAllProductsRequest" , (state , action)=>{
             state.isLoading = true;
         })
         .addCase("GetAllProductsSuccess" , (state , action)=>{            
             state.isLoading = false,
-            state.products = action.payload;
+            state.allProducts = action.payload;
         })
         .addCase("GetAllProductsFail" , (state , action)=>{
             state.isLoading = false;

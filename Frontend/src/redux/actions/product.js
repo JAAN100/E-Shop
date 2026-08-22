@@ -27,19 +27,40 @@ export const createProduct = (formData) => async (dispatch) => {
 // Get All products
 
 
-export const getAllProducts = (id) => async (dispatch) => {
+export const getAllProductsForShop = (id) => async (dispatch) => {
   try {
     dispatch({
-      type: "GetAllProductsRequest",
+      type: "GetAllProductsForShopRequest",
     });
+    
     const { data } = await axios.get(`/api/product/get-all-products/${id}`, {
       withCredentials: true,
     });
     
+    dispatch({
+      type: "GetAllProductsForShopSuccess",
+      payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GetAllProductsForShopFail",
+      payload: error.response.data.error,
+    });
+  }
+}
+
+export const getAllProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "GetAllProductsRequest",
+    });
+    const { data } = await axios.get("/api/product/get-products", {
+      withCredentials: true,
+    });
     
     dispatch({
       type: "GetAllProductsSuccess",
-      payload: data.products,
+      payload: data.allProducts,
     });
   } catch (error) {
     dispatch({

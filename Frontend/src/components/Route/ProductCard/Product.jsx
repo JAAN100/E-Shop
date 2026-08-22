@@ -10,8 +10,8 @@ import {
 } from "react-icons/ai";
 import ProductDetailsCard from "../../Route/ProductDetailsCard/ProductDetailsCard.jsx";
 export default function Product({ data }) {
-    const d = data.name;
-    const productName = d.replace(/\s+/g, "-");
+    const d = data?.productName;
+    const productName = d;
     const [click, setClick] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     return (
@@ -19,19 +19,19 @@ export default function Product({ data }) {
             <div className="w-full min-h-[320px] sm:min-h-[350px] lg:h-[370px] bg-white rounded-lg p-3 relative cursor-pointer shadow flex flex-col">
                 <Link to={`/product/${productName}`} className="w-full flex flex-col">
                     <img
-                        src={data.image_Url[0].url}
-                        alt={data.name}
+                        src={data?.images[0].url}
+                        alt={data?.productName}
                         className="w-full h-[140px] sm:h-[170px] object-contain"
                     />
                 </Link>
                 <Link to="/">
                     <h5 className="pt-3 text-[15px] text-blue-400 pb-3">
-                        {data.shop.name}
+                        {data?.shop?.name}
                     </h5>
                 </Link>
                 <Link to={`/product/${productName}`}>
                     <h4 className="pb-3 font-[500] line-clamp-2 text-[16px] text-gray-600">
-                        {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
+                        {data?.productName?.length > 40 ? data?.productName.slice(0, 40) + "..." : data?.productName}
                     </h4>
                     <div className="flex ">
                         <AiFillStar
@@ -64,14 +64,14 @@ export default function Product({ data }) {
                     <div className="py-2 flex items-center justify-between">
                         <div className="flex">
                             <h5 className="font-bold text-[18px] text-gray-700 font-Roboto">
-                                {data.price !== 0 ? data.discount_price : data.price} $
+                                {data?.originalPrice !== 0 ? data?.discountPrice : data.price} $
                             </h5>
                             <h4 className="font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through">
                                 {data.price ? data.price + " $" : null}
                             </h4>
                         </div>
                         <span className="font-[400] text-[17px] text-[#68d284] font-Roboto">
-                            {data.total_sell} sold
+                            {data?.sold_out} sold
                         </span>
                     </div>
                 </Link>

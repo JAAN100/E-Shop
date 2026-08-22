@@ -3,7 +3,7 @@ const router = express.Router();
 const { uploadImageMulter } = require("../middleware/multer");
 const {uploadImage} = require("../controllers/imageRoutes");
 const {AuthenticateShop} = require("../middleware/auth");
-const {createShop , ActivationShop , LoginShop , GetShop , LogoutShop} = require("../controllers/shop.controllers");
+const {createShop , ActivationShop , LoginShop , GetShop , LogoutShop , GetShopWithID} = require("../controllers/shop.controllers");
 
 router.post("/create-shop" , uploadImageMulter.single("image"), uploadImage, createShop);
 
@@ -12,6 +12,8 @@ router.post("/activation" , ActivationShop);
 router.post("/login-shop" , LoginShop);
 
 router.get("/get-shop" , AuthenticateShop , GetShop)
+
+router.get("/get-shopByID/:id" , GetShopWithID);
 
 router.post("/logout-shop" , AuthenticateShop , LogoutShop);
 
