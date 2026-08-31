@@ -1,0 +1,74 @@
+const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const userSchema = new Schema(
+  {
+    fullName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minLength: [4, "Password must be at least 4 characters"],
+      select: false,
+    },
+    phoneNumber: {
+      type: Number,
+    },
+    addresses: [
+      {
+        country: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        address1: {
+          type: String,
+        },
+        address2: {
+          type: String,
+        },
+        zipCode: {
+          type: Number,
+        },
+        addressType: {
+          type: String,
+        },
+      },
+    ],
+    role: {
+      type: String,
+      default: "user ",
+    },
+    avatar: {
+      type: String,
+      default:
+        "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=",
+    },
+    avatarPublicId: {
+      type: String,
+    },
+    resetPasswordToken: String,
+    resetPasswordTime: Date,
+  },
+  { timestamps: true },
+);
+
+// model(name, schema) — the second argument must be the Schema instance,
+userSchema.methods.getJWTToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
+// not a string. Passing "user" here was breaking the model entirely.
+const USER = model("User", userSchema);
+
+module.exports = USER;
