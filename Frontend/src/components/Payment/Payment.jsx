@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { RxCross1 } from "react-icons/rx";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 const Payment = () => {
     const [orderData, setOrderData] = useState([]);
     const [open, setOpen] = useState(false);
@@ -25,10 +27,77 @@ const Payment = () => {
         const orderData = JSON.parse(localStorage.getItem("latestOrder"));
         setOrderData(orderData);
     }, [1]);
-    const createOrder = (data, actions) => { };
-    const onApprove = (data, actions) => { };
-    const payPalPaymentHandler = (e) => { };
-    const cashOnDeliveryHandler = (e) => { };
+    const createOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    description: "Payment for order",
+                    amount: {
+                        currency_code: "USD",
+                        value: orderData?.totalPrice?.toFixed(2),
+                    },
+                }
+            ],
+            application_context: {
+                shipping_preference: "NO_SHIPPING",
+            },
+        }).then((orderID) => {
+            return orderID;
+        })
+    };
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+            const { payer } = details;
+            let paymentInfo = payer;
+            if (paymentInfo !== undefined) {
+                payPalPaymentHandler(paymentInfo);
+            }
+        })
+    };
+    const payPalPaymentHandler = async (paymentInfo) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        };
+
+        order.paymentInfo = {
+            id: paymentInfo.payer_id,
+            status: "COMPLETED",
+            paymentType: "Paypal",
+        };
+
+        axios.post("/api/order/create-order", order, config).then((res) => {
+            setOpen(false);
+            navigate("/order/success");
+            toast.success("Order placed successfully");
+            localStorage.removeItem("latestOrder", JSON.stringify([]));
+            localStorage.removeItem("cart", JSON.stringify([]));
+            dispatch({ type: "ClearCartRequest" });
+        })
+    };
+    const cashOnDeliveryHandler = (e) => {
+        e.preventDefault();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        };
+
+        order.paymentInfo = {
+            paymentType: "Cash on Delivery",
+        };
+        axios.post("/api/order/create-order", order, config).then((res) => {
+            setOpen(false);
+            navigate("/order/success");
+            toast.success("Order placed successfully");
+            localStorage.removeItem("latestOrder", JSON.stringify([]));
+            localStorage.removeItem("cart", JSON.stringify([]));
+            dispatch({ type: "ClearCartRequest" });
+        })
+    };
     const paymentData = {
         amount: Math.round(orderData?.totalPrice * 100),
     };
@@ -257,19 +326,32 @@ const PaymentInfo = ({
                 {/* pay with card */}
                 {select === 2 ? (
                     <div className="w-full flex border-b">
-                        <form className="w-full" onSubmit={paymentHandler}>
-                            <div className="w-full flex pb-3">
-                                <div className="w-full">
-                                    <label className="block pb-2">Paypal Email</label>
-                                    <input required className={`${styles.input}`} />
+                        <div className={`${styles.button} !bg-[#f63b60] text-[#fff] h-[45px] rounded cursor-pointer text-[18px] font-[600]`}
+                            onClick={() => setOpen(true)}
+                        >
+                            Pay Now
+                        </div>{
+                            open && (
+                                <div className="w-full fixed top-0 left-0 bg-[#00000039] h-screen flex items-center justify-center z-[9999]">
+                                    <div className="w-full md:w-[40%] h-screen md:h-[80vh] bg-[#fff] rounded-[5px] shadow flex flex-col justify-center p-8 relative overflow-y-scroll">
+                                        <div className="w-full flex justify-end">
+                                            <RxCross1 size={30} onClick={() => setOpen(false)} className="absolute top-4 right-4 cursor-pointer text-[24px] text-[#000]" />
+                                        </div>
+                                        <PayPalScriptProvider
+                                            options={{
+                                                "client-id": import.meta.env.VITE_CLIENT_ID,
+                                            }}
+                                        >
+                                            <PayPalButtons
+                                                style={{ layout: "vertical" }}
+                                                onApprove={onApprove}
+                                                createOrder={createOrder}
+                                            />
+                                        </PayPalScriptProvider>
+                                    </div>
                                 </div>
-                            </div>
-                            <input
-                                type="submit"
-                                value="Submit"
-                                className={`${styles.button} !bg-[#f63b60] text-[#fff] h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
-                            />
-                        </form>
+                            )
+                        }
                     </div>
                 ) : null}
             </div>
@@ -291,10 +373,10 @@ const PaymentInfo = ({
                     </h4>
                 </div>
 
-                {/* pay with card */}
+                {/* cash on delivery */}
                 {select === 3 ? (
                     <div className="w-full flex">
-                        <form className="w-full" onSubmit={paymentHandler}>
+                        <form className="w-full" onSubmit={cashOnDeliveryHandler}>
                             <input
                                 type="submit"
                                 value="Confirm"
