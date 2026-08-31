@@ -44,8 +44,11 @@ const CreateOrder = catchAsyncErrors(async (req, res, next) => {
 });
 
 const GetAllOrders = catchAsyncErrors(async (req, res, next) => {
+  const id = req.user._id.toString();
   try {
-    const orders = (await Order.find("user._id" === req.user._id)).sort({
+    const orders = await Order.find({
+      "user._id": id,
+    }).sort({
       createdAt: -1,
     });
     res.status(200).json({
