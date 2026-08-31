@@ -60,7 +60,25 @@ const GetAllOrders = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+const GetAllOrdersForSeller = catchAsyncErrors(async (req, res, next) => {
+  const id = req.shop._id.toString();
+  try {
+    const allOrders = await Order.find({
+      "cart.shopId": id,
+    }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({
+      success: true,
+      allOrders,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 module.exports = {
   CreateOrder,
   GetAllOrders,
+  GetAllOrdersForSeller,
 };

@@ -38,13 +38,12 @@ export default function AllEvents() {
             field: "preview", headerName: "Preview", minWidth: 100, flex: 0.8, type: "number", sortable: false,
             renderCell: (params) => {
                 const d = params.row;
-                const event_name = d.productName.replace(/\s+/g, '-');
                 return (
                     <>
-                        <Link to={`/event/${event_name}`}>
-                            <button className="cursor-pointer">
+                        <Link to={`/product/${d?.id}?isEvent=true`}>
+                            <div className="cursor-pointer">
                                 <AiOutlineEye size={20} />
-                            </button>
+                            </div>
                         </Link>
                     </>
                 )

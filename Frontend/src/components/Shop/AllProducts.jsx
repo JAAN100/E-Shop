@@ -38,10 +38,9 @@ export default function AllProducts() {
             field: "preview", headerName: "Preview", minWidth: 100, flex: 0.8, type: "number", sortable: false,
             renderCell: (params) => {
                 const d = params.row;
-                const product_name = d.productName.replace(/\s+/g, '-');
                 return (
                     <>
-                        <Link to={`/product/${product_name}`}>
+                        <Link to={`/product/${d.id}`}>
                             <button className="cursor-pointer">
                                 <AiOutlineEye size={20} />
                             </button>

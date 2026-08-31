@@ -25,7 +25,7 @@ export default function DashboardSidebar({ active }) {
 
             <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-orders" className="w-full flex items-center">
-                    <FiShoppingBag size={30} color={active === 2 ? "crimson" : "#555"} title="All Orders" />
+                    <FiPackage size={30} color={active === 2 ? "crimson" : "#555"} title="All Orders" />
                     <h5
                         className={`pl-2 text-[18px] font-[400] ${active === 2 ? "text-[crimson]" : "text-[#555]"} md:block hidden`}
                     >
@@ -36,7 +36,7 @@ export default function DashboardSidebar({ active }) {
 
             <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-products" className="w-full flex items-center">
-                    <FiPackage size={30} color={active === 3 ? "crimson" : "#555"} title="All Products" />
+                    <FiShoppingBag size={30} color={active === 3 ? "crimson" : "#555"} title="All Products" />
                     <h5
                         className={`pl-2 text-[18px] font-[400] ${active === 3 ? "text-[crimson]" : "text-[#555]"} md:block hidden`}
                     >

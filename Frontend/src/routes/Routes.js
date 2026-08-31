@@ -22,6 +22,8 @@ import ShopCreateEventPage from "../pages/ShopCreateEventPage.jsx";
 import ShopEventsPage from "../pages/ShopEventsPage.jsx";
 import ShopAllCoupons from "../pages/ShopAllCoupons.jsx";
 import ShopPreviewPage from "../pages/ShopPreviewPage.jsx";
+import ShopAllOrdersPage from "../pages/ShopAllOrdersPage.jsx";
+import ShopOrdersDetails from "../pages/ShopOrdersDetails.jsx";
 // User Routes
 export {
   LoginPage,
@@ -52,4 +54,6 @@ export {
   ShopEventsPage,
   ShopAllCoupons,
   ShopPreviewPage,
+  ShopAllOrdersPage,
+  ShopOrdersDetails,
 };
