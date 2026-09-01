@@ -45,7 +45,11 @@ export default function ShopInfo({ isOwner }) {
             toast.error(error.message);
         }
     }
-
+    const totalReviewsLength = () => {
+        return products?.reduce((acc, product) => acc + (product.reviews?.length || 0), 0);
+    }
+    const totalRatings = products?.reduce((acc, product) => acc + (product?.reviews.reduce((sum, review) => sum + (review?.rating), 0)), 0);
+    const averageRating = totalRatings / totalReviewsLength() || 0;
     return (
         <>
             {
@@ -95,7 +99,7 @@ export default function ShopInfo({ isOwner }) {
                                     Shop Rating:
                                 </h5>
                                 <h4 className="text-[16px] text-[#555]">
-                                    4/5
+                                    {averageRating.toFixed(0)}/5
                                 </h4>
                             </div>
                             <div className="p-3 gap-1">

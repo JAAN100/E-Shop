@@ -46,6 +46,8 @@ export default function ProductDetailsCard({ setOpen, data }) {
             }
         }
     }
+    console.log(data);
+
     const handleMessageSubmit = () => {
 
     }
@@ -73,7 +75,7 @@ export default function ProductDetailsCard({ setOpen, data }) {
                                             </h3>
 
                                             <h5 className="pb-3 text-[15px] text-gray-500">
-                                                ({data?.shop?.ratings}) Ratings
+                                                ({data?.ratings}) Ratings
                                             </h5>
 
                                         </div>

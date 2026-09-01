@@ -34,6 +34,7 @@ export default function UserOrderDetails() {
             const data = await response.json();
             if (data.success === true) {
                 toast.success("Review submitted successfully");
+                dispatch(GetAllOrders());
                 setRating(1);
                 setComment("");
                 setOpen(false);
@@ -44,7 +45,7 @@ export default function UserOrderDetails() {
     }
     useEffect(() => {
         dispatch(GetAllOrders());
-    }, [dispatch, reviewHandler]);
+    }, [dispatch]);
 
     return (
         <div className={`py-4 min-h-screen ${styles.section}`}>

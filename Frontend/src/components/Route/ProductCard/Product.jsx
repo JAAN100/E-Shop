@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-    AiFillStar,
-    AiOutlineStar,
     AiFillHeart,
     AiOutlineHeart,
     AiOutlineEye,
@@ -14,6 +12,7 @@ import { useSelector } from "react-redux";
 import { removeFromWishlist, addToWishlist } from "../../../redux/actions/wishlist.js";
 import { addToCart } from "../../../redux/actions/cart.js";
 import { toast } from "react-toastify";
+import Rating from "../../Rating/Rating.jsx";
 export default function Product({ data }) {
     const { cart } = useSelector((state) => state.cart);
     const [click, setClick] = React.useState(false);
@@ -51,6 +50,7 @@ export default function Product({ data }) {
             }
         }
     }
+
     return (
         <>
             <div className="w-full min-h-[320px] sm:min-h-[350px] lg:h-[370px] bg-white rounded-lg p-3 relative cursor-pointer shadow flex flex-col">
@@ -71,31 +71,9 @@ export default function Product({ data }) {
                         {data?.productName?.length > 40 ? data?.productName.slice(0, 40) + "..." : data?.productName}
                     </h4>
                     <div className="flex ">
-                        <AiFillStar
-                            size={20}
-                            className="mr-2 cursor-pointer"
-                            color="#F6BA00"
-                        />
-                        <AiFillStar
-                            size={20}
-                            className="mr-2 cursor-pointer"
-                            color="#F6BA00"
-                        />
-                        <AiFillStar
-                            size={20}
-                            className="mr-2 cursor-pointer"
-                            color="#F6BA00"
-                        />
-                        <AiFillStar
-                            size={20}
-                            className="mr-2 cursor-pointer"
-                            color="#F6BA00"
-                        />
-                        <AiOutlineStar
-                            size={20}
-                            className="mr-2 cursor-pointer"
-                            color="#F6BA00"
-                        />
+                        {data?.ratings > 0 &&
+                            <Rating ratings={data?.ratings} />
+                        }
                     </div>
 
                     <div className="py-2 flex items-center justify-between">
