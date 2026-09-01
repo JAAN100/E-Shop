@@ -5,17 +5,41 @@ import { BsFillBagFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { GetAllOrdersForSeller } from "../../redux/actions/order.js";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 export default function OrderDetails() {
     const { allOrders } = useSelector((state) => state.order);
     const dispatch = useDispatch();
     const [status, setStatus] = React.useState("");
     const { id } = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         dispatch(GetAllOrdersForSeller());
     }, [dispatch]);
     const data = allOrders && allOrders.find((items) => items._id === id);
-    const orderUpdateHandler = (e) => {
-        e.perventDefault();
+    const orderUpdateHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await fetch(
+                `/api/order/update-order-status/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ orderStatus: status }),
+                },
+                { withCredentials: true },
+            );
+            const res = await data.json();
+            if (!res.success) {
+                throw new Error(res.message || "Failed to update order status");
+            }
+            toast.success("Order status updated successfully");
+            navigate("/dashboard-orders");
+        } catch (error) {
+            toast.error("Error updating order status");
+        }
     };
     return (
         <div className={`py-4 min-h-screen ${styles.section}`}>
@@ -45,8 +69,8 @@ export default function OrderDetails() {
             <br />
 
             {data &&
-                data.cart.map((item, index) => (
-                    <div className="w-full flex items-center mb-5">
+                data.cart.map((item) => (
+                    <div className="w-full flex items-start mb-5">
                         <img
                             src={`${item?.images[0]?.url}`}
                             alt={`${item?.productName}`}
@@ -81,12 +105,15 @@ export default function OrderDetails() {
                 </div>
                 <div className="w-full md:w-[40%]">
                     <h4 className="pt-3 text-[20px] font-[600]">Payment Info:</h4>
-                    <h4 className="">Status: {data?.paymentInfo?.paymentType}</h4>
+                    <h4 className="">
+                        Status:{" "}
+                        {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
+                    </h4>
                 </div>
             </div>
             <br />
             <br />
-            <h4 clasName="pt-3 text-[20px] font-[600]">Order Status: </h4>
+            <h4 className="pt-3 text-[20px] font-[600]">Order Status: </h4>
             <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
@@ -94,7 +121,7 @@ export default function OrderDetails() {
             >
                 {[
                     "Processing",
-                    "Transferred to delivery partner",
+                    "Transfered to delivery partner",
                     "Shipping",
                     "Received",
                     "On the way",
@@ -104,7 +131,7 @@ export default function OrderDetails() {
                     .slice(
                         [
                             "Processing",
-                            "Transferred to delivery partner",
+                            "Transfered to delivery partner",
                             "Shipping",
                             "Received",
                             "On the way",
@@ -118,7 +145,8 @@ export default function OrderDetails() {
                         </option>
                     ))}
             </select>
-            <div className={`${styles.button} mt-5 !bg-[#FCE1E6] !h-[45px] font-[600] text-[18px] rounded-[4px] text-[#E94560]`}
+            <div
+                className={`${styles.button} mt-5 !bg-[#FCE1E6] !h-[45px] font-[600] text-[18px] rounded-[4px] text-[#E94560]`}
                 onClick={orderUpdateHandler}
             >
                 Update Status

@@ -77,8 +77,49 @@ const GetAllOrdersForSeller = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+const UpdateOrderStatus = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return next(new ErrorHandler("Order not found", 404));
+    }
+
+    const { orderStatus } = req.body;
+
+    if (orderStatus === "Transfered to delivery partner") {
+      for (const item of order.cart) {
+        await updateStock(item._id, item.qty);
+      }
+    }
+
+    if (orderStatus === "Delivered") {
+      order.deliveredAt = new Date(Date.now());
+      order.paymentInfo.status = "Succeeded";
+    }
+    order.orderStatus = orderStatus;
+    await order.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+      order,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+async function updateStock(id, qty) {
+  const product = await Product.findById(id);
+  if (!product) return;
+  product.stock -= qty;
+  product.sold_out += qty;
+  await product.save({ validateBeforeSave: false });
+}
+
 module.exports = {
   CreateOrder,
   GetAllOrders,
   GetAllOrdersForSeller,
+  UpdateOrderStatus,
 };

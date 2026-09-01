@@ -28,7 +28,8 @@ import {
   ShopAllCoupons,
   ShopPreviewPage,
   ShopAllOrdersPage,
-  ShopOrdersDetails
+  ShopOrdersDetails,
+  OrderDetailsPage,
 } from "./routes/Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -104,6 +105,10 @@ function App() {
                 <Route
                   path="/profile"
                   element={<ProtectedRoute children={<ProfilePage />} />}
+                ></Route>
+                <Route
+                  path="/user/order/:id"
+                  element={<ProtectedRoute children={<OrderDetailsPage />} />}
                 ></Route>
 
                 {/* Shop Routes */}

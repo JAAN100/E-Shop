@@ -223,13 +223,13 @@ const PaymentInfo = ({
                                     <input
                                         required
                                         placeholder={user && user.fullName}
-                                        className={`${styles.input} !w-[95%]`}
+                                        className={`${styles.input} !h-[35px] !w-[95%]`}
                                     />
                                 </div>
                                 <div className="w-[50%]">
                                     <label className="block pb-2">Exp Date</label>
                                     <CardExpiryElement
-                                        className={`${styles.input} !w-[95%]`}
+                                        className={`${styles.input} !w-[95%] !h-[35px]`}
                                         options={{
                                             style: {
                                                 base: {
