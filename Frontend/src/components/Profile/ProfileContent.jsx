@@ -64,7 +64,7 @@ export default function ProfileContent({ active }) {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-[80%] my-auto md:my-0">
             {active === 1 && (
                 <>
                     <div className="flex justify-center w-full">

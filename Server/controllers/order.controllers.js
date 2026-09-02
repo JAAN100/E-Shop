@@ -117,9 +117,46 @@ async function updateStock(id, qty) {
   await product.save({ validateBeforeSave: false });
 }
 
+async function RefundUpdateStock(id, qty) {
+  const product = await Product.findById(id);
+  if (!product) return;
+  product.stock += qty;
+  product.sold_out -= qty;
+  await product.save({ validateBeforeSave: false });
+}
+const RefundOrder = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return next(new ErrorHandler("Order not found", 404));
+    }
+    if (order.orderStatus !== "Delivered") {
+      return next(
+        new ErrorHandler(
+          "Refund can only be requested for delivered orders",
+          400,
+        ),
+      );
+    }
+    for (const item of order.cart) {
+      await RefundUpdateStock(item._id, item.qty);
+    }
+    order.orderStatus = "Processing refund";
+    await order.save({ validateBeforeSave: false });
+    res.status(200).json({
+      success: true,
+      message: "Refund requested successfully",
+      order,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 module.exports = {
   CreateOrder,
   GetAllOrders,
   GetAllOrdersForSeller,
   UpdateOrderStatus,
+  RefundOrder,
 };

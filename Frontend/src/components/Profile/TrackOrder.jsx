@@ -3,20 +3,15 @@ import { Link } from "react-router-dom";
 import { MdOutlineTrackChanges } from "react-icons/md";
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-export default function TrackOrder() {
-    const orders = [
-        {
-            _id: 1122233445566,
-            orderItems: [
-                {
-                    name: "Iphone 14 Pro Max",
-                },
-            ],
-            totalPrice: 1200,
-            orderStatus: "Processing",
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllOrders } from "../../redux/actions/order.js"
+export default function AllOrders() {
+    const { orders } = useSelector((state) => state.order);
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        dispatch(GetAllOrders());
+    }, [dispatch]);
 
-        }
-    ]
     const columns = [
         { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
         {
@@ -49,7 +44,7 @@ export default function TrackOrder() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={`/order/${params.id}`}>
+                        <Link to={`/user/track/order/${params.id}`}>
                             <Button>
                                 <MdOutlineTrackChanges size={20} />
                             </Button>
@@ -65,8 +60,8 @@ export default function TrackOrder() {
         row.push({
             id: item._id,
             status: item.orderStatus,
-            itemsQty: item.orderItems.length,
-            total: "US$" + item.totalPrice
+            itemsQty: item.cart.length,
+            total: "US$ " + item.totalPrice.toFixed(2),
         });
     });
     return (
@@ -75,7 +70,6 @@ export default function TrackOrder() {
                 rows={row}
                 columns={columns}
                 pageSize={10}
-                rowsPerPageOptions={[]}
                 disableSelectionOnClick
                 autoHeight
             />

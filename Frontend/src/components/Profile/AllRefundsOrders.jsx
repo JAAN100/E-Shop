@@ -3,20 +3,16 @@ import { Link } from "react-router-dom";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-export default function AllRefundsOrders() {
-    const orders = [
-        {
-            _id: 1122233445566,
-            orderItems: [
-                {
-                    name: "Iphone 14 Pro Max",
-                },
-            ],
-            totalPrice: 1200,
-            orderStatus: "Processing",
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllOrders } from "../../redux/actions/order.js"
+export default function AllOrders() {
+    const { orders } = useSelector((state) => state.order);
+    const filterOrder = orders && orders?.filter((item) => item.orderStatus === "Processing refund");
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        dispatch(GetAllOrders());
+    }, [dispatch]);
 
-        }
-    ]
     const columns = [
         { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
         {
@@ -49,7 +45,7 @@ export default function AllRefundsOrders() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={`/order/${params.id}`}>
+                        <Link to={`/user/order/${params.id}`}>
                             <Button>
                                 <AiOutlineArrowRight size={20} />
                             </Button>
@@ -61,12 +57,12 @@ export default function AllRefundsOrders() {
     ];
 
     const row = [];
-    orders && orders.forEach((item) => {
+    filterOrder && filterOrder.forEach((item) => {
         row.push({
             id: item._id,
             status: item.orderStatus,
-            itemsQty: item.orderItems.length,
-            total: "US$" + item.totalPrice
+            itemsQty: item.cart.length,
+            total: "US$ " + item.totalPrice.toFixed(2),
         });
     });
     return (
@@ -75,7 +71,6 @@ export default function AllRefundsOrders() {
                 rows={row}
                 columns={columns}
                 pageSize={10}
-                rowsPerPageOptions={[]}
                 disableSelectionOnClick
                 autoHeight
             />

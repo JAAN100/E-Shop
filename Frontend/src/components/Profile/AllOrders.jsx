@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllOrders } from "../../redux/actions/order.js"
 export default function AllOrders() {
     const { orders } = useSelector((state) => state.order);
+    const filterOrder = orders && orders?.filter((item) => item.orderStatus !== "Processing refund");
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(GetAllOrders());
@@ -56,7 +57,7 @@ export default function AllOrders() {
     ];
 
     const row = [];
-    orders && orders.forEach((item) => {
+    filterOrder && filterOrder.forEach((item) => {
         row.push({
             id: item._id,
             status: item.orderStatus,

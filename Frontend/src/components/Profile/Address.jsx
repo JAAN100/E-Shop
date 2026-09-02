@@ -54,6 +54,9 @@ export default function Address() {
     }
     const handleDeleteAddress = (item) => {
         dispatch(userDeleteAddress(item._id));
+        toast.success("Address deleted successfully", {
+            toastId: "address-delete-success",
+        });
     }
     return (
         <div className="w-full px-3 sm:px-5">

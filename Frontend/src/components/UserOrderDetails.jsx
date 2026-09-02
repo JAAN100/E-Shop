@@ -14,6 +14,7 @@ export default function UserOrderDetails() {
     const [open, setOpen] = React.useState(false);
     const [rating, setRating] = React.useState(1);
     const [selectedItem, setSelectedItem] = React.useState(null);
+    const [refundLoading, setRefundLoading] = useState(false);
     const [comment, setComment] = useState("");
     const { id } = useParams();
     const data = orders && orders.find((items) => items._id === id);
@@ -46,6 +47,26 @@ export default function UserOrderDetails() {
     useEffect(() => {
         dispatch(GetAllOrders());
     }, [dispatch]);
+    const refundHandler = async (e) => {
+        e.preventDefault();
+        try {
+            setRefundLoading(true);
+            const data = await fetch(`/api/order/refund-order/${id}`, {
+                method: 'PUT'
+            }, { withCredentials: true }
+            );
+            const res = await data.json();
+            if (res.success === true) {
+                toast.success(res.message || "Refund requested successfully");
+                dispatch(GetAllOrders());
+                setRefundLoading(false);
+            }
+        } catch (error) {
+            toast.error("Error processing refund")
+            setRefundLoading(false);
+        }
+
+    }
 
     return (
         <div className={`py-4 min-h-screen ${styles.section}`}>
@@ -201,6 +222,21 @@ export default function UserOrderDetails() {
                         Status:{" "}
                         {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
                     </h4>
+                    <br />
+                    {
+                        data?.orderStatus === "Delivered" && (
+                            <div className={`${styles.button} bg-yellow-500 text-white`} onClick={refundHandler}>
+                                {refundLoading ? "Processing..." : "Give a Refund"}
+                            </div>
+                        )
+                    }
+                    {
+                        data?.orderStatus === "Processing refund" && (
+                            <div className={`text-red-600 font-[500]`}>
+                                We will Refund your money within 7 working days
+                            </div>
+                        )
+                    }
                 </div>
             </div>
             <br />
@@ -208,6 +244,6 @@ export default function UserOrderDetails() {
             <Link to="/">
                 <div className={`${styles.button} text-white`}>Send Message</div>
             </Link>
-        </div>
+        </div >
     );
 }
