@@ -8,13 +8,13 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 import Loader from '../Layout/Loader.jsx'
 import { DataGrid } from '@mui/x-data-grid'
 import { Button } from '@mui/material'
-export default function AllOrders() {
+export default function AllRefunds() {
     const { allOrders, isAllLoading } = useSelector((state) => state.order);
-    const data = allOrders?.filter((order) => order.orderStatus !== "Processing refund" && order.orderStatus !== "Refund Success");
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(GetAllOrdersForSeller());
     }, [dispatch]);
+    const refundOrders = allOrders?.filter((order) => order.orderStatus === "Processing refund" || order.orderStatus === "Refund Success");
     const columns = [
         { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
         {
@@ -59,7 +59,7 @@ export default function AllOrders() {
     ];
 
     const row = [];
-    data && data.forEach((item) => {
+    refundOrders && refundOrders.forEach((item) => {
         row.push({
             id: item._id,
             status: item.orderStatus,

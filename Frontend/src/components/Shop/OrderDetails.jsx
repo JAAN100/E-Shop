@@ -16,7 +16,7 @@ export default function OrderDetails() {
     useEffect(() => {
         dispatch(GetAllOrdersForSeller());
     }, [dispatch]);
-    const data = allOrders && allOrders.find((items) => items._id === id);
+    const data = allOrders && allOrders?.find((items) => items._id === id);
     const orderUpdateHandler = async (e) => {
         e.preventDefault();
         try {
@@ -41,6 +41,31 @@ export default function OrderDetails() {
             toast.error("Error updating order status");
         }
     };
+    const refundOrderUpdateHandler = async (e) => {
+        e.preventDefault();
+        e.preventDefault();
+        try {
+            const data = await fetch(
+                `/api/order/refund-order-status/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ orderStatus: status }),
+                },
+                { withCredentials: true },
+            );
+            const res = await data.json();
+            if (!res.success) {
+                throw new Error(res.message || "Failed to update order status");
+            }
+            toast.success("Order status updated successfully");
+            navigate("/dashboard-orders");
+        } catch (error) {
+            toast.error("Error updating order status");
+        }
+    }
     return (
         <div className={`py-4 min-h-screen ${styles.section}`}>
             <div className="w-full flex items-center justify-between">
@@ -48,10 +73,18 @@ export default function OrderDetails() {
                     <BsFillBagFill size={30} color="crimson" />
                     <h1 className="pl-2 text-[25px]">Order Details</h1>
                 </div>
-                <Link to="/dashboard-orders">
+                <Link
+                    to={
+                        data?.orderStatus === "Processing refund"
+                            ? "/dashboard-refunds"
+                            : `/dashboard-orders`
+                    }
+                >
                     <div className="w-[150px] my-3 flex items-center justify-center cursor-pointer bg-[#fce1e6] rounded-[4px] text-[#e94560] font-[600] h-[45px] text-[18px]">
-                        {" "}
-                        Order List
+                        {/* {List Button} */}
+                        {data?.orderStatus === "Processing refund"
+                            ? "Refund List"
+                            : "Order List"}
                     </div>
                 </Link>
             </div>
@@ -69,7 +102,7 @@ export default function OrderDetails() {
             <br />
 
             {data &&
-                data.cart.map((item) => (
+                data?.cart.map((item) => (
                     <div className="w-full flex items-start mb-5">
                         <img
                             src={`${item?.images[0]?.url}`}
@@ -114,40 +147,63 @@ export default function OrderDetails() {
             <br />
             <br />
             <h4 className="pt-3 text-[20px] font-[600]">Order Status: </h4>
-            <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="border p-2 mt-3"
-            >
-                {[
-                    "Processing",
-                    "Transfered to delivery partner",
-                    "Shipping",
-                    "Received",
-                    "On the way",
-                    "Delivered",
-                    "Processing refund",
-                ]
-                    .slice(
-                        [
-                            "Processing",
-                            "Transfered to delivery partner",
-                            "Shipping",
-                            "Received",
-                            "On the way",
-                            "Delivered",
-                            "Processing refund",
-                        ].indexOf(data?.orderStatus),
-                    )
-                    .map((item, index) => (
-                        <option key={index} value={item}>
-                            {item}
-                        </option>
-                    ))}
-            </select>
+            {data?.orderStatus !== "Processing refund" && data?.orderStatus !== "Refund Success" ? (
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="border p-2 mt-3"
+                >
+                    {[
+                        "Processing",
+                        "Transfered to delivery partner",
+                        "Shipping",
+                        "Received",
+                        "On the way",
+                        "Delivered",
+                    ]
+                        .slice(
+                            [
+                                "Processing",
+                                "Transfered to delivery partner",
+                                "Shipping",
+                                "Received",
+                                "On the way",
+                                "Delivered",
+                            ].indexOf(data?.orderStatus),
+                        )
+                        .map((item, index) => (
+                            <option key={index} value={item}>
+                                {item}
+                            </option>
+                        ))}
+                </select>
+            ) : (
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="border p-2 mt-3"
+                >
+                    {[
+                        "Processing refund",
+                        "Refund Success",
+                    ]
+                        .slice(
+                            [
+                                "Processing refund",
+                                "Refund Success",
+                            ].indexOf(data?.orderStatus),
+                        )
+                        .map((item, index) => (
+                            <option key={index} value={item}>
+                                {item}
+                            </option>
+
+                        ))}
+                </select>
+            )}
             <div
                 className={`${styles.button} mt-5 !bg-[#FCE1E6] !h-[45px] font-[600] text-[18px] rounded-[4px] text-[#E94560]`}
-                onClick={orderUpdateHandler}
+                onClick={data?.orderStatus !== "Processing refund" && data?.orderStatus !== "Refund Success" ? orderUpdateHandler : refundOrderUpdateHandler}
             >
                 Update Status
             </div>

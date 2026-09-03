@@ -23,7 +23,7 @@ export default function TrackOrder() {
     const progress = statusProgress[data?.orderStatus] || 0;
     return (
         <div>
-            {data && data.orderStatus != "Processing refund" && (
+            {data && data?.orderStatus !== "Processing refund" && data?.orderStatus !== "Refund Success" && (
                 <div className="w-full h-[80vh] flex flex-col justify-center items-center">
 
                     <div className="w-[80%] max-w-[700px]">

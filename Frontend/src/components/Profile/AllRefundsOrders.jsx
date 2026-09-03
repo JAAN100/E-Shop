@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllOrders } from "../../redux/actions/order.js"
 export default function AllOrders() {
     const { orders } = useSelector((state) => state.order);
-    const filterOrder = orders && orders?.filter((item) => item.orderStatus === "Processing refund");
+    const filterOrder = orders && orders?.filter((item) => item.orderStatus === "Processing refund" || item.orderStatus === "Refund Success");
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(GetAllOrders());
