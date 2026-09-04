@@ -18,7 +18,7 @@ export default function DashboardHero() {
     React.useEffect(() => {
         dispatch(getAllProductsForShop(shop?._id));
         dispatch(GetAllOrdersForSeller());
-    }, [dispatch, shop]);
+    }, [dispatch]);
     React.useEffect(() => {
         const orderData = allOrders?.filter((item) => item.orderStatus === "Delivered") || [];
         setDeliveredOrders(orderData);

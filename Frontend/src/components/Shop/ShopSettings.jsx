@@ -63,7 +63,6 @@ export default function ShopSettings() {
     };
     return (
         <div className="w-[100%] bg-gray-100 h-[88vh] md:h-[89vh] overflow-y-auto  ">
-
             <div className="flex flex-col items-center w-full px-4 sm:px-6 py-6">
                 <div className="flex justify-center w-full">
                     <div className="relative">
