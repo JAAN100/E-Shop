@@ -8,7 +8,7 @@ export default function Rating({ ratings = 0 }) {
             starts.push(
                 <AiFillStar
                     key={i}
-                    size={20}
+                    size={18}
                     color="#f6ba00"
                     className="mr-2 cursor-pointer"
                 />,
@@ -17,7 +17,7 @@ export default function Rating({ ratings = 0 }) {
             starts.push(
                 <BsStarHalf
                     key={i}
-                    size={20}
+                    size={18}
                     color="#f6ba00"
                     className="mr-2 cursor-pointer"
                 />,
@@ -26,7 +26,7 @@ export default function Rating({ ratings = 0 }) {
             starts.push(
                 <AiOutlineStar
                     key={i}
-                    size={20}
+                    size={18}
                     color="#f6ba00"
                     className="mr-2 cursor-pointer"
                 />,

@@ -41,9 +41,9 @@ export default function AllEvents() {
                 return (
                     <>
                         <Link to={`/product/${d?.id}?isEvent=true`}>
-                            <div className="cursor-pointer">
+                            <button className="cursor-pointer">
                                 <AiOutlineEye size={20} />
-                            </div>
+                            </button>
                         </Link>
                     </>
                 )
@@ -69,7 +69,7 @@ export default function AllEvents() {
         row.push({
             id: item._id,
             productName: item.productName,
-            price: "US$ " + item.discountPrice,
+            price: "US$ " + item.discountPrice.toFixed(2),
             stock: item.stock,
             sold: item.sold_out
         });

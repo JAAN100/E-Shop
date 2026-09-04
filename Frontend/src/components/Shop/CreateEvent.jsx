@@ -46,7 +46,7 @@ export default function CreateEvent() {
             setLoading(false);
             toast.success("Event created successfully");
             dispatch({ type: "EventCreateReset" });
-            navigate("/dashboard");
+            navigate("/dashboard-events");
         }
     }, [dispatch, error, success]);
 

@@ -69,7 +69,7 @@ export default function AllProducts() {
         row.push({
             id: item._id,
             productName: item.productName,
-            price: "US$ " + item.discountPrice,
+            price: "US$ " + item.discountPrice.toFixed(2),
             stock: item.stock,
             sold: item.sold_out
         });

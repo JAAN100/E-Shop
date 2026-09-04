@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import {
     AiFillHeart,
     AiOutlineHeart,
@@ -203,6 +203,7 @@ export default function ProductDetails({ data }) {
     );
 }
 
+
 const ProductDetailsInfo = ({ data, products, totalReviews, averageRating }) => {
     const [active, setActive] = React.useState(1);
     return (
@@ -276,7 +277,7 @@ const ProductDetailsInfo = ({ data, products, totalReviews, averageRating }) => 
                                 </p>
                             </div>
                         ))}
-                    {data?.reviews?.length === 0 && (
+                    {data?.reviews?.length === 0 || totalReviews === 0 && (
                         <div className="w-full my-auto flex  justify-center">
                             No Reviews Yet!
                         </div>

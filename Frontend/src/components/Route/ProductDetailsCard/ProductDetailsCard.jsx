@@ -46,7 +46,6 @@ export default function ProductDetailsCard({ setOpen, data }) {
             }
         }
     }
-    console.log(data);
 
     const handleMessageSubmit = () => {
 

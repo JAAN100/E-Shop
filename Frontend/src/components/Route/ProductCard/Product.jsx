@@ -9,11 +9,14 @@ import {
 import ProductDetailsCard from "../../Route/ProductDetailsCard/ProductDetailsCard.jsx";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { removeFromWishlist, addToWishlist } from "../../../redux/actions/wishlist.js";
+import {
+    removeFromWishlist,
+    addToWishlist,
+} from "../../../redux/actions/wishlist.js";
 import { addToCart } from "../../../redux/actions/cart.js";
 import { toast } from "react-toastify";
 import Rating from "../../Rating/Rating.jsx";
-export default function Product({ data }) {
+export default function Product({ data, isEvent }) {
     const { cart } = useSelector((state) => state.cart);
     const [click, setClick] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -25,17 +28,17 @@ export default function Product({ data }) {
         } else {
             setClick(false);
         }
-    }, [wishlist])
+    }, [wishlist]);
     const removeFromWishlistHandler = (data) => {
         setClick(false);
         dispatch(removeFromWishlist(data));
         toast.success("Item removed from wishlist successfully!");
-    }
+    };
     const addToWishlistHandler = (data) => {
         setClick(true);
         dispatch(addToWishlist(data));
         toast.success("Item added to wishlist successfully!");
-    }
+    };
     const addToCartHandler = (id) => {
         const isItemExists = cart && cart.find((i) => i._id === id);
         if (isItemExists) {
@@ -49,12 +52,15 @@ export default function Product({ data }) {
                 toast.success("Item added to cart successfully!");
             }
         }
-    }
+    };
 
     return (
         <>
             <div className="w-full min-h-[320px] sm:min-h-[350px] lg:h-[370px] bg-white rounded-lg p-3 relative cursor-pointer shadow flex flex-col">
-                <Link to={`/product/${data._id}`} className="w-full flex flex-col">
+                <Link
+                    to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}
+                    className="w-full flex flex-col"
+                >
                     <img
                         src={data?.images[0].url}
                         alt={data?.productName}
@@ -66,14 +72,16 @@ export default function Product({ data }) {
                         {data?.shop?.shopName}
                     </h5>
                 </Link>
-                <Link to={`/product/${data._id}`}>
+                <Link
+                    to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}
+                >
                     <h4 className="pb-3 font-[500] line-clamp-2 text-[16px] text-gray-600">
-                        {data?.productName?.length > 40 ? data?.productName.slice(0, 40) + "..." : data?.productName}
+                        {data?.productName?.length > 40
+                            ? data?.productName.slice(0, 40) + "..."
+                            : data?.productName}
                     </h4>
                     <div className="flex ">
-                        {data?.ratings > 0 &&
-                            <Rating ratings={data?.ratings} />
-                        }
+                        <Rating ratings={data?.ratings || 0} />
                     </div>
 
                     <div className="py-2 flex items-center justify-between">
