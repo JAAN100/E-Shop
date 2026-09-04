@@ -17,8 +17,8 @@ const ShopProfileData = ({ isOwner }) => {
         dispatch(getAllProductsForShop(id));
     }, [dispatch, shop]);
     const allReviews = products && products.map((item) => item.reviews).flat();
-    console.log(events);
-
+    const [totalReviews, setTotalReviews] = useState(5);
+    const restrictedReviews = allReviews?.slice(0, totalReviews);
     const [active, setActive] = useState(1);
     return (
         <div className="w-full">
@@ -103,7 +103,7 @@ const ShopProfileData = ({ isOwner }) => {
                 active === 3 && (
                     <div className="w-full">
                         {
-                            allReviews.map((item, index) => (
+                            restrictedReviews?.map((item, index) => (
                                 <div key={index} className="w-full flex my-4  items-center border-b pb-5 border-gray-300">
                                     <img src={item?.user?.avatar} alt="" className="w-10 h-10 rounded-full" />
                                     <div className="pl-2">
@@ -116,6 +116,14 @@ const ShopProfileData = ({ isOwner }) => {
                                     </div>
                                 </div>
                             ))
+                        }
+                        {
+                            allReviews.length > 2 && restrictedReviews.length < allReviews.length &&
+                            <div className="w-full flex items-center justify-center mt-5">
+                                <button className="text-blue-500 hover:text-blue-700 mx-auto cursor-pointer" onClick={() => {
+                                    setTotalReviews(totalReviews + 5);
+                                }}>See more...</button>
+                            </div>
                         }
                     </div>
                 )
