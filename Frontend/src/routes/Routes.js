@@ -27,6 +27,7 @@ import ShopOrdersDetails from "../pages/ShopOrdersDetails.jsx";
 import OrderDetailsPage from "../pages/OrderDetailsPage.jsx";
 import TrackOrderPage from "../pages/TrackOrderPage.jsx";
 import ShopRefundsPage from "../pages/ShopRefundsPage.jsx";
+import ShopSettingsPage from "../pages/ShopSettingsPage.jsx";
 // User Routes
 export {
   LoginPage,
@@ -62,4 +63,5 @@ export {
   ShopAllOrdersPage,
   ShopOrdersDetails,
   ShopRefundsPage,
+  ShopSettingsPage,
 };

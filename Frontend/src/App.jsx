@@ -32,6 +32,7 @@ import {
   OrderDetailsPage,
   TrackOrderPage,
   ShopRefundsPage,
+  ShopSettingsPage,
 } from "./routes/Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -159,6 +160,7 @@ function App() {
               element={<ShopProtectedRoute children={<ShopAllCoupons />} />}
             />
             <Route path="/dashboard-refunds" element={<ShopProtectedRoute children={<ShopRefundsPage />} />} />
+            <Route path="/dashboard-settings" element={<ShopProtectedRoute children={<ShopSettingsPage />} />} />
 
 
 

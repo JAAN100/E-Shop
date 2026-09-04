@@ -14,7 +14,7 @@ import { EyeOff, Eye } from "lucide-react";
 import { userUpdateInfo } from "../../redux/actions/user.js";
 export default function ProfileContent({ active }) {
     const { user, error, message } = useSelector((state) => state.user);
-    const [fullName, setName] = React.useState(user?.fullName || "");
+    const [fullName, setFullName] = React.useState(user?.fullName || "");
     const [email, setEmail] = React.useState(user?.email || "");
     const [phoneNumber, setPhone] = React.useState(user?.phoneNumber || "");
     const [password, setPassword] = React.useState("");
@@ -105,8 +105,9 @@ export default function ProfileContent({ active }) {
                                         Email
                                     </label>
                                     <input
+                                        disabled
                                         type="email"
-                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0"
+                                        className="w-[95%] border p-1 rounded-[5px] mb-1 md:mb-0 text-gray-400 border-black"
                                         id="email"
                                         required
                                         defaultValue={email}
