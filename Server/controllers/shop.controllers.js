@@ -4,11 +4,11 @@ const bcryptjs = require("bcryptjs");
 const ErrorHandler = require("../utils/ErrorHandler");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const {sendTokenForSeller} = require("../utils/sendToken");
+const { sendTokenForSeller } = require("../utils/sendToken");
 
 async function createShop(req, res, next) {
   try {
-    const shopExists = await Shop.findOne({ shopEmail : req.body.shopEmail });
+    const shopExists = await Shop.findOne({ shopEmail: req.body.shopEmail });
     if (shopExists) {
       return next(new ErrorHandler("Error creating shop", 400));
     }
@@ -101,8 +101,8 @@ const ActivationShop = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-const LoginShop = catchAsyncErrors(async (req , res , next)=>{
-   try {
+const LoginShop = catchAsyncErrors(async (req, res, next) => {
+  try {
     const { shopEmail, shopPassword } = req.body;
     const shop = await Shop.findOne({ shopEmail }).select("+shopPassword");
     if (!shop) {
@@ -111,21 +111,24 @@ const LoginShop = catchAsyncErrors(async (req , res , next)=>{
         message: "Wrong credentials",
       });
     }
-    const isPasswordValid = await bcryptjs.compare(shopPassword, shop.shopPassword);
+    const isPasswordValid = await bcryptjs.compare(
+      shopPassword,
+      shop.shopPassword,
+    );
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
         message: "Wrong credentials",
       });
     }
-    sendTokenForSeller(shop , 200, res);
+    sendTokenForSeller(shop, 200, res);
   } catch (error) {
     error = new ErrorHandler(error.message, 500);
     next(error);
   }
-})
+});
 
-async function GetShop(req, res, next) {  
+async function GetShop(req, res, next) {
   try {
     const shop = await Shop.findById(req.shop.id);
     if (!shop) {
@@ -158,12 +161,12 @@ const LogoutShop = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
 const GetShopWithID = catchAsyncErrors(async (req, res, next) => {
   try {
     const shop = await Shop.findById(req.params.id);
-    
+
     if (!shop) {
       return res.status(404).json({
         success: false,
@@ -173,11 +176,71 @@ const GetShopWithID = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      shop
+      shop,
     });
   } catch (error) {
     error = new ErrorHandler(error.message, 500);
     next(error);
+  }
+});
+
+const UpdateShopAvatar = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.shop.id);
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+    shop.avatar = req.body.avatar;
+    shop.avatarPublicId = req.body.avatarPublicId;
+    await shop.save();
+    res.status(200).json({
+      success: true,
+      message: "Avatar updated successfully",
+      shop,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+const UpdateShopData = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.shop.id).select("+shopPassword");
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+    const isPasswordValid = await bcryptjs.compare(
+      req.body.shopPassword,
+      shop.shopPassword,
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Wrong credentials",
+      });
+    }
+
+    shop.shopName = req.body.shopName || shop.shopName;
+    shop.shopEmail = req.body.shopEmail || shop.shopEmail;
+    shop.phoneNumber = req.body.phoneNumber || shop.phoneNumber;
+    shop.description = req.body.description || shop.description;
+    shop.shopAddress = req.body.shopAddress || shop.shopAddress;
+    shop.zipCode = req.body.zipCode || shop.zipCode;
+    await shop.save();
+    shop.shopPassword = undefined;
+    res.status(200).json({
+      success: true,
+      message: "Shop data updated successfully",
+      shop,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
   }
 });
 module.exports = {
@@ -186,5 +249,7 @@ module.exports = {
   LoginShop,
   GetShop,
   LogoutShop,
-  GetShopWithID
+  UpdateShopData,
+  UpdateShopAvatar,
+  GetShopWithID,
 };

@@ -71,5 +71,13 @@ export const userReducer = createReducer(initialState, (builder) => {
     .addCase("ChangeUserPasswordFail", (state, action) => {
       state.passwordLoading = false;
       state.passwordError = action.payload;
+    })
+    .addCase("clearErrors", (state) => {
+      state.error = null;
+      state.passwordError = null;
+    })
+    .addCase("clearMessages", (state) => {
+      state.message = null;
+      state.passwordMessage = null;
     });
 });

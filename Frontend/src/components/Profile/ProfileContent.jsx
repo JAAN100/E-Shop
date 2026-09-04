@@ -27,10 +27,12 @@ export default function ProfileContent({ active }) {
             toast.error(error, {
                 toastId: "error-toast",
             });
+            dispatch({ type: "clearErrors" });
         } else if (message) {
             toast.success(message, {
                 toastId: "success-toast",
             });
+            dispatch({ type: "clearMessages" });
         }
     }, [error, message]);
     const handleSubmit = (e) => {

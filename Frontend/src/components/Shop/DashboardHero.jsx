@@ -18,13 +18,15 @@ export default function DashboardHero() {
     React.useEffect(() => {
         dispatch(getAllProductsForShop(shop?._id));
         dispatch(GetAllOrdersForSeller());
-        const orderData = allOrders?.filter((item) => item.orderStatus === "Delivered");
+    }, [dispatch, shop]);
+    React.useEffect(() => {
+        const orderData = allOrders?.filter((item) => item.orderStatus === "Delivered") || [];
         setDeliveredOrders(orderData);
-    }, [dispatch]);
-
+    }, [allOrders]);
     const totalEarningWithoutTax = deliveredOrders && deliveredOrders.reduce((acc, item) => acc + item.totalPrice, 0);
     const serviceCharges = totalEarningWithoutTax * 0.1;
-    const availableBalance = totalEarningWithoutTax - serviceCharges.toFixed(2);
+    const availableBalance = totalEarningWithoutTax - serviceCharges;
+
     const columns = [
         { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
         {
