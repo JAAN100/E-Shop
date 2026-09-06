@@ -34,6 +34,7 @@ import {
   ShopRefundsPage,
   ShopSettingsPage,
   ShopWithdrawMoneyPage,
+  ShopMessagesPage,
 } from "./routes/Routes.js";
 import { ToastContainer, Bounce } from "react-toastify";
 import store from "./redux/store.js";
@@ -165,6 +166,7 @@ function App() {
 
             <Route path="/dashboard-withdraw-money" element={<ShopProtectedRoute children={<ShopWithdrawMoneyPage />} />} />
 
+            <Route path="/dashboard-messages" element={<ShopProtectedRoute children={<ShopMessagesPage />} />} />
 
             {/* Shop Route For Normal User */}
             <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />

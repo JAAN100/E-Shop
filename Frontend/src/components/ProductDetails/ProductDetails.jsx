@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 export default function ProductDetails({ data }) {
     const { cart } = useSelector((state) => state.cart);
     const { wishlist } = useSelector((state) => state.wishlist);
+    const { user, isAuthenticated } = useSelector((state) => state.user);
     const [count, setCount] = React.useState(1);
     const [click, setClick] = React.useState(false);
     const [select, setSelect] = React.useState(0);
@@ -34,8 +35,35 @@ export default function ProductDetails({ data }) {
         }
     }, [wishlist, data]);
     const navigate = useNavigate();
-    const handleMessageSubmit = () => {
-        navigate("/inbox?conversation=10acwqeq");
+    const handleMessageSubmit = async () => {
+        if (!isAuthenticated) {
+            return toast.error("Please login to send message!");
+        }
+        try {
+            const groupTitle = data.shop._id + user._id;
+            const userId = user._id;
+            const shopId = data.shop._id;
+            const res = await fetch(`/api/conversation/create-conversation`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        groupTitle,
+                        userId,
+                        shopId,
+                    }),
+                }, { withCredentials: true });
+            const result = await res.json();
+            if (result.success) {
+                navigate(`/conversation/${result.conversation._id}`);
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
     const removeFromWishlistHandler = (data) => {
         setClick(false);

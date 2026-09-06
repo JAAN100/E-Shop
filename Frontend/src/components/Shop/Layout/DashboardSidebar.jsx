@@ -90,7 +90,7 @@ export default function DashboardSidebar({ active }) {
             </div>
 
             <div className="w-full flex items-center p-4">
-                <Link to="/dashboard-inbox" className="w-full flex items-center">
+                <Link to="/dashboard-messages" className="w-full flex items-center">
                     <BiMessageSquareDetail size={30} color={active === 8 ? "crimson" : "#555"} title="Shop Inbox" />
                     <h5
                         className={`pl-2 text-[18px] font-[400] ${active === 8 ? "text-[crimson]" : "text-[#555]"} md:block hidden`}
