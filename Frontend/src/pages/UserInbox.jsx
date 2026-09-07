@@ -1,23 +1,25 @@
 import React from "react";
+import Header from "../components/Layout/Header";
+import Footer from "../components/Layout/Footer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
-import styles from "../../styles/styles";
 import { toast } from "react-toastify";
+import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
 import { format } from "timeago.js";
+import styles from "../styles/styles";
 import { useRef } from "react";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
 const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
-export default function DashboardMessges() {
-    const { shop } = useSelector((state) => state.seller);
+export default function UserInbox() {
+    const { user } = useSelector((state) => state.user);
     const [conversations, setConversations] = React.useState([]);
     const [arrivalMessage, setArrivalMessage] = React.useState(null);
     const [messages, setMessages] = React.useState([]);
     const [currentChat, setCurrentChat] = React.useState(null);
     const [open, setOpen] = React.useState(false);
-    const [user, setUser] = React.useState(null);
+    const [shop, setShop] = React.useState(null);
     const [onlineUsers, setOnlineUsers] = React.useState([]);
     const [activeStatus, setActiveStatus] = React.useState(false);
     const [newMessage, setNewMessage] = React.useState("");
@@ -38,7 +40,7 @@ export default function DashboardMessges() {
     React.useEffect(() => {
         const fetchData = async () => {
             const response = await fetch(
-                "/api/conversation/get-all-conversation",
+                "/api/conversation/get-all-conversation-user",
                 {
                     method: "GET",
                 },
@@ -50,20 +52,20 @@ export default function DashboardMessges() {
             setConversations(data.conversations);
         };
         fetchData();
-    }, [shop]);
+    }, [user]);
 
     React.useEffect(() => {
-        if (shop) {
-            socketId.emit("addUser", shop._id);
+        if (user) {
+            socketId.emit("addUser", user._id);
             socketId.on("getUsers", (users) => {
                 setOnlineUsers(users);
             });
             return () => socketId.off("getUsers");
         }
-    }, [shop]);
+    }, [user]);
 
     const onlineCheck = (chat) => {
-        const otherMember = chat?.members.find((member) => member !== shop?._id);
+        const otherMember = chat?.members.find((member) => member !== user?._id);
         const online = onlineUsers.find((user) => user?.userId === otherMember);
         return online ? true : false;
     };
@@ -92,7 +94,7 @@ export default function DashboardMessges() {
     const updateLastMessage = async () => {
         socketId.emit("updateLastMessage", {
             lastMessage: newMessage,
-            lastMessageId: shop._id,
+            lastMessageId: user._id,
         });
         const res = await fetch(
             `/api/conversation/update-last-message/${currentChat?._id}`,
@@ -104,7 +106,7 @@ export default function DashboardMessges() {
                 },
                 body: JSON.stringify({
                     lastMessage: newMessage,
-                    lastMessageId: shop._id,
+                    lastMessageId: user._id,
                 }),
             },
         );
@@ -117,15 +119,15 @@ export default function DashboardMessges() {
     const sendMessageHandler = async (e) => {
         e.preventDefault();
         const message = {
-            sender: shop._id,
+            sender: user._id,
             text: newMessage,
             conversationId: currentChat._id,
         };
         const receiverId = currentChat.members.find(
-            (member) => member !== shop._id,
+            (member) => member !== user._id,
         );
         socketId.emit("sendMessage", {
-            senderId: shop._id,
+            senderId: user._id,
             receiverId,
             text: newMessage,
         });
@@ -150,7 +152,8 @@ export default function DashboardMessges() {
         }
     };
     return (
-        <div className="w-[90%] bg-white m-3 h-[85vh] overflow-y-auto rounded">
+        <div className="w-full">
+            <Header />
             {!open && (
                 <>
                     <h1 className="text-[30px] font-semibold py-3 text-center font-Poppins">
@@ -160,15 +163,15 @@ export default function DashboardMessges() {
                     {/* All Messages List */}
                     {conversations &&
                         conversations?.map((conversation, index) => (
-                            <MeassageList
+                            <MessageList
                                 data={conversation}
                                 key={index}
                                 index={index}
                                 setOpen={setOpen}
                                 setCurrentChat={setCurrentChat}
-                                me={shop._id}
-                                setUser={setUser}
-                                user={user}
+                                me={user._id}
+                                setShop={setShop}
+                                shop={shop}
                                 online={onlineCheck(conversation)}
                                 setActiveStatus={setActiveStatus}
                             />
@@ -182,8 +185,8 @@ export default function DashboardMessges() {
                     setNewMessage={setNewMessage}
                     sendMessageHandler={sendMessageHandler}
                     messages={messages}
-                    shopId={shop._id}
-                    user={user}
+                    userId={user._id}
+                    shop={shop}
                     activeStatus={activeStatus}
                 />
             )}
@@ -191,14 +194,14 @@ export default function DashboardMessges() {
     );
 }
 
-const MeassageList = ({
+const MessageList = ({
     data,
     index,
     setOpen,
     setCurrentChat,
     me,
-    setUser,
-    user,
+    setShop,
+    shop,
     online,
     setActiveStatus,
 }) => {
@@ -207,12 +210,14 @@ const MeassageList = ({
     const handleChat = () => {
         navigate(`?${data?._id}`);
         setOpen(true);
+        setCurrentChat(data);
     };
     React.useEffect(() => {
-        const userId = data?.members.find((id) => id !== me);
+        setActiveStatus(online);
+        const shopId = data?.members?.find((id) => id !== me);
         const getUser = async () => {
             try {
-                const res = await fetch(`/api/user/get-user-info/${userId}`, {
+                const res = await fetch(`/api/shop/get-shopByID/${shopId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -220,7 +225,7 @@ const MeassageList = ({
                 });
                 const response = await res.json();
                 if (response.success === true) {
-                    setUser(response.user)
+                    setShop(response.shop);
                 } else {
                     toast.error(response.message);
                 }
@@ -238,18 +243,18 @@ const MeassageList = ({
         >
             <div className="relative">
                 <img
-                    src={user?.avatar}
+                    src={shop?.avatar}
                     className="w-16 h-16 rounded-full"
-                    alt={user?.fullName}
+                    alt={shop?.shopName}
                 />
                 {online && (
                     <div className="absolute w-[12px] h-[12px] bg-green-400 rounded-full top-12 right-0" />
                 )}
             </div>
             <div className="pl-3">
-                <h1 className="text-[18px] font-[400]">{user?.fullName}</h1>
+                <h1 className="text-[18px] font-[400]">{shop?.shopName}</h1>
                 <p className="text-[16px] font-[300] text-gray-500">
-                    {data?.lastMessageId === me ? "You" : user?.fullName?.split(" ")[0]}:{" "}
+                    {data?.lastMessageId === me ? "You" : shop?.shopName?.split(" ")[0]}:{" "}
                     {data?.lastMessage}
                 </p>
             </div>
@@ -257,14 +262,16 @@ const MeassageList = ({
     );
 };
 
+
+
 const Inbox = ({
     setOpen,
     newMessage,
     setNewMessage,
     sendMessageHandler,
     messages,
-    shopId,
-    user,
+    userId,
+    shop,
     activeStatus,
 }) => {
     const scrollRef = useRef(null);
@@ -277,12 +284,12 @@ const Inbox = ({
             <div className="w-full flex p-4 items-center justify-between bg-gray-200">
                 <div className="flex items-center">
                     <img
-                        src={user?.avatar}
-                        alt={user?.fullName}
+                        src={shop?.avatar}
+                        alt={shop?.shopName}
                         className="w-[60px] h-[60px] rounded-full"
                     />
                     <div className="pl-3">
-                        <h1 className="text-[18px] font-[500]">{user?.fullName}</h1>
+                        <h1 className="text-[18px] font-[500]">{shop?.shopName}</h1>
                         <h1 className="text-gray-400 text-[16px]">
                             {activeStatus ? "Active now" : "Offline"}
                         </h1>
@@ -296,16 +303,22 @@ const Inbox = ({
             </div>
 
             {/*  Message List */}
-            <div className="px-3 py-3 h-[65vh] overflow-auto">
+            <div className="px-3 py-3 h-[65vh] overflow-y-scroll flex flex-col">
                 {messages &&
                     messages.map((message, index) => (
                         <div key={index}>
                             <div
-                                className={`w-full flex my-3 ${message.senderId === shopId ? "justify-end" : "justify-start"}`}
+                                className={`w-full flex my-3 ${message.senderId === userId ? "justify-end" : "justify-start"}`}
                             >
-
+                                {message.senderId !== userId && (
+                                    <img
+                                        src={shop?.avatar}
+                                        alt={shop?.shopName}
+                                        className="w-[40px] h-[40px] rounded-full mr-2"
+                                    />
+                                )}
                                 <div
-                                    className={`flex flex-col ${message.senderId === shopId ? "items-end" : "items-start"}`}
+                                    className={`flex flex-col ${message.senderId === userId ? "items-end" : "items-start"}`}
                                 >
                                     <div
                                         className="w-max p-2 bg-slate-300 h-min rounded-xl"

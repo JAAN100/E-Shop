@@ -13,6 +13,7 @@ const {
   UpdateUserAddress,
   DeleteUserAddress,
   UpdateUserPassword,
+  GetUserById,
 } = require("../controllers/user");
 const { AuthenticateUser } = require("../middleware/auth");
 
@@ -47,4 +48,5 @@ router.put("/change-password", AuthenticateUser, UpdateUserPassword);
 
 router.post("/logout", AuthenticateUser, LogoutUser);
 
+router.get("/get-user-info/:id", GetUserById);
 module.exports = router;

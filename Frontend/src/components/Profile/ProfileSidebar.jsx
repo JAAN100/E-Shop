@@ -5,8 +5,10 @@ import { AiOutlineMessage, AiOutlineLogin } from "react-icons/ai";
 import { MdOutlineTrackChanges } from "react-icons/md";
 import { TbAddressBook } from "react-icons/tb";
 import { KeyRound } from "lucide-react";
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 export default function ProfileSidebar({ active, setActive }) {
+    const navigate = useNavigate();
     const sideBar = [
         { name: "Profile", Icon: RxPerson },
         { name: "Orders", Icon: HiOutlineShoppingBag },
@@ -30,6 +32,11 @@ export default function ProfileSidebar({ active, setActive }) {
                             <Icon size={20} color={active === index + 1 ? "red" : "black"} />
                             <span className={`pl-3 ${active === index + 1 ? "text-[red]" : ""} md:block hidden`}>
                                 {name}
+                                {
+                                    name === "Inbox" && active === 4 && (
+                                        navigate("/inbox")
+                                    )
+                                }
                             </span>
                         </div>
                     )

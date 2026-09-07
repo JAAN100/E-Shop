@@ -189,9 +189,6 @@ export default function ProfileContent({ active }) {
                 )
             }
             {
-                active === 4 && (null)
-            }
-            {
                 active === 5 && (
                     <div>
                         <TrackOrder />

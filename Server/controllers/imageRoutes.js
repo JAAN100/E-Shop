@@ -55,4 +55,30 @@ async function uploadImages(req, res, next) {
   }
 }
 
-module.exports = { uploadImage, uploadImages };
+async function uploadImagesForChat(req, res, next) {
+  try {
+    // No files? That's fine for text-only messages — just skip ahead.
+    if (!req.files || req.files.length === 0) {
+      return next();
+    }
+
+    const uploadResults = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await uploadCloudinary(file.path, "mern-project");
+
+        fs.unlink(file.path, (err) => {
+          //if (err) console.error("Failed to remove temp upload:", file.path, err);
+        });
+
+        return { url: result.url, public_id: result.public_id };
+      }),
+    );
+
+    req.body.images = uploadResults;
+    next();
+  } catch (err) {
+    next(new ErrorHandler(err.message, 500));
+  }
+}
+
+module.exports = { uploadImage, uploadImages, uploadImagesForChat };

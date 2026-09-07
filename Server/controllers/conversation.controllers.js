@@ -41,4 +41,44 @@ const GetAllConversation = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-module.exports = { NewConversation, GetAllConversation };
+const UpdateLastMessage = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { conversationId } = req.params;
+    const { lastMessage, lastMessageId } = req.body;
+
+    const conversation = await Conversation.findByIdAndUpdate(
+      conversationId,
+      { lastMessage, lastMessageId: lastMessageId.toString() },
+      { new: true },
+    );
+
+    res.status(200).json({
+      success: true,
+      conversation,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+const GetAllConversationForUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const conversations = await Conversation.find({
+      members: { $in: [req.user._id.toString()] },
+    }).sort({ updatedAt: -1, createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      conversations,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+module.exports = {
+  NewConversation,
+  GetAllConversation,
+  UpdateLastMessage,
+  GetAllConversationForUser,
+};

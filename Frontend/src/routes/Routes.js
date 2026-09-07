@@ -30,7 +30,8 @@ import ShopRefundsPage from "../pages/ShopRefundsPage.jsx";
 import ShopSettingsPage from "../pages/ShopSettingsPage.jsx";
 import ShopWithdrawMoneyPage from "../pages/ShopWithdrawMoneyPage.jsx";
 import ShopMessagesPage from "../pages/ShopMessagesPage.jsx";
-
+import UserInbox from "../pages/UserInbox.jsx";
+// User Routes
 export {
   LoginPage,
   SignUpPage,
@@ -46,6 +47,7 @@ export {
   ProfilePage,
   OrderDetailsPage,
   TrackOrderPage,
+  UserInbox,
   Activation,
 };
 

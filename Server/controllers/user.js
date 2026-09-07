@@ -288,6 +288,26 @@ const UpdateUserPassword = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+
+const GetUserById = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 module.exports = {
   createUser,
   LoginUser,
@@ -299,4 +319,5 @@ module.exports = {
   UpdateUserAddress,
   DeleteUserAddress,
   UpdateUserPassword,
+  GetUserById,
 };

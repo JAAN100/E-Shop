@@ -1,14 +1,17 @@
+const { text } = require("express");
 const { Schema, model } = require("mongoose");
 
 const messageSchema = new Schema(
   {
     conversationId: {
       type: String,
-      required: true,
     },
     senderId: {
       type: String,
-      required: true,
+    },
+
+    text: {
+      type: String,
     },
     images: [
       {
