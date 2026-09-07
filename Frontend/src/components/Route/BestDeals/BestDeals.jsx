@@ -7,7 +7,9 @@ export default function BestDeals() {
     const { allProducts } = useSelector((state) => state.products);
     const [data, setData] = React.useState([]);
     useEffect(() => {
-        const d = allProducts && allProducts.slice(0, 5);
+        const allProductsData = allProducts ? [...allProducts] : [];
+        const sortedProducts = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
+        const d = sortedProducts && sortedProducts.slice(0, 5);
         setData(d);
     }, [allProducts]);
     return (

@@ -270,7 +270,7 @@ const Inbox = ({
     const scrollRef = useRef(null);
     React.useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages.length]);
     return (
         <div className="w-full min-h-[83vh] flex flex-col justify-between">
             {/* Message Header */}

@@ -73,7 +73,7 @@ const DeleteProduct = catchAsyncErrors(async (req, res, next) => {
 
 const GetAllProducts = catchAsyncErrors(async (req, res, next) => {
   try {
-    const allProducts = await Product.find();
+    const allProducts = await Product.find().sort({ createdAt: -1 });
     if (!allProducts) {
       return res.status(404).json({
         success: false,

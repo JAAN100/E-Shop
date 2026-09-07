@@ -277,11 +277,11 @@ const Inbox = ({
     const scrollRef = useRef(null);
     React.useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages.length]);
     return (
-        <div className="w-full min-h-[83vh] flex flex-col justify-between">
+        <div className="w-full h-screen h-[100dvh] fixed inset-0 z-50 bg-white flex flex-col">
             {/* Message Header */}
-            <div className="w-full flex p-4 items-center justify-between bg-gray-200">
+            <div className="w-full flex p-4 items-center justify-between bg-gray-200 shrink-0">
                 <div className="flex items-center">
                     <img
                         src={shop?.avatar}
@@ -303,7 +303,7 @@ const Inbox = ({
             </div>
 
             {/*  Message List */}
-            <div className="px-3 py-3 h-[65vh] overflow-y-scroll flex flex-col">
+            <div className="px-3 py-3 flex-1 overflow-y-auto flex flex-col">
                 {messages &&
                     messages.map((message, index) => (
                         <div key={index}>
@@ -338,7 +338,7 @@ const Inbox = ({
             {/* send message */}
             <form
                 aria-required="true"
-                className="px-3 relative w-full flex items-center justify-between"
+                className="px-3 py-3 relative w-full flex items-center justify-between shrink-0 bg-white border-t border-gray-200"
                 onSubmit={sendMessageHandler}
             >
                 <div className="w-[5%] lg:w-[3%]">
@@ -357,7 +357,7 @@ const Inbox = ({
                     <label htmlFor="send">
                         <AiOutlineSend
                             size={18}
-                            className="absolute top-2 right-6 cursor-pointer text-gray-600"
+                            className="absolute top-5 right-5 cursor-pointer text-gray-600"
                         />
                     </label>
                 </div>
