@@ -18,6 +18,33 @@ app.use(express.json({ limit: "4mb" }));
 app.use(express.urlencoded({ extended: true, limit: "4mb" }));
 app.use(cookieParser());
 
+const connectDB = require("./db/connection");
+let dbInitializing = null;
+let dbReady = false;
+
+app.use((req, res, next) => {
+  if (dbReady) return next();
+  if (dbInitializing) {
+    dbInitializing.then(() => next()).catch((err) => next(err));
+    return;
+  }
+  dbInitializing = connectDB()
+    .then(() => {
+      dbReady = true;
+      dbInitializing = null;
+      console.log("✅ MongoDB connected");
+      next();
+    })
+    .catch((err) => {
+      console.error("❌ MongoDB connection failed:", err.message);
+      dbInitializing = null;
+      res.status(500).json({
+        success: false,
+        message: "Database connection failed — check MONGO_URI in env vars",
+      });
+    });
+});
+
 app.use("/api/user", userRoute);
 
 app.use("/api/shop", shopRoute);
@@ -35,9 +62,7 @@ app.use("/api/order", orderRoute);
 app.use("/api/conversation", conversationRoute);
 
 app.use("/api/message", messageRoute);
-// The error handler must be registered LAST, after every route.
-// Express matches middleware in order — an error thrown in a route
-// can only be caught by error handlers that come after it in the stack.
+
 app.use(errorMiddleware);
 
 module.exports = app;
