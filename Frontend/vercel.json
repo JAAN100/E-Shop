@@ -1,12 +1,22 @@
 {
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "rewrites": [
-    { "source": "/api/:path*",       "destination": "https://e-shop-p7ez.vercel.app/api/:path*" },
-    { "source": "/socket.io/:path*", "destination": "https://e-shop-bw9w.vercel.app/socket.io/:path*" },
+    { "source": "/api/:path*",       "destination": "https://e-shop-server-pi.vercel.app/api/:path*" },
+    { "source": "/socket.io/:path*", "destination": "https://e-shop-socket-five.vercel.app/socket.io/:path*" },
     { "source": "/(.*)",             "destination": "/index.html" }
   ],
   "headers": [
     {
       "source": "/api/:path*",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+      ]
+    },
+    {
+      "source": "/socket.io/:path*",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" }
       ]

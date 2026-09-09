@@ -10,8 +10,11 @@ import styles from "../styles/styles";
 import { useRef } from "react";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
-const ENDPOINT = "http://localhost:4000/";
-const socketId = socketIO(ENDPOINT, { transports: ["polling", "websocket"] });
+const socketId = socketIO({
+  path: "/socket.io/",
+  transports: ["polling", "websocket"],
+  withCredentials: true,
+});
 export default function UserInbox() {
     const { user } = useSelector((state) => state.user);
     const [conversations, setConversations] = React.useState([]);

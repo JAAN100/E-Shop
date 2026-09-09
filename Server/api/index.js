@@ -1,0 +1,16 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const connectDB = require("../db/connection");
+connectDB();
+
+const app = require("../app");
+
+module.exports = app;
