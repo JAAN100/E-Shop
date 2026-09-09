@@ -8,7 +8,12 @@ dotenv.config({ path: "./.env" });
 const app = express();
 
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    credentials: true,
+  },
+});
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
@@ -18,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 let users = [];
+const messages = {};
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -28,14 +34,13 @@ const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
-const getUser = (reciverId) => {
-  return users.find((user) => user.userId === reciverId);
+const getUser = (receiverId) => {
+  return users.find((user) => user.userId === receiverId);
 };
 
-// Define message for seen property
-const createMessage = (senderId, reciverId, text, images) => ({
+const createMessage = (senderId, receiverId, text, images) => ({
   senderId,
-  reciverId,
+  receiverId,
   text,
   images,
   seen: false,
@@ -44,44 +49,39 @@ const createMessage = (senderId, reciverId, text, images) => ({
 io.on("connection", (socket) => {
   console.log("A user is connected");
 
-  //take userId and socketId from user
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
     io.emit("getUsers", users);
   });
 
-  //send and get message
-  const messages = {}; // For Tracking messages sent to each user
-  socket.on("sendMessage", ({ senderId, reciverId, text, images }) => {
-    const message = createMessage(senderId, reciverId, text, images);
-    const user = getUser(reciverId);
+  socket.on("sendMessage", ({ senderId, receiverId, text, images }) => {
+    const message = createMessage(senderId, receiverId, text, images);
+    const user = getUser(receiverId);
 
-    //Store the messages in the messages object
-    if (!messages[reciverId]) {
-      messages[reciverId] = [message];
+    if (!messages[receiverId]) {
+      messages[receiverId] = [message];
     } else {
-      messages[reciverId].push(message);
+      messages[receiverId].push(message);
     }
 
-    //send message to the receiver if they are connected
-    io.to(user?.socketId).emit("getMessage", message);
+    if (user) {
+      io.to(user.socketId).emit("getMessage", message);
+    }
   });
 
-  socket.on("messageSeen", ({ senderId, reciverId, messageId }) => {
+  socket.on("messageSeen", ({ senderId, receiverId, messageId }) => {
     const user = getUser(senderId);
 
-    //update the seen flag
     if (messages[senderId]) {
       const message = messages[senderId].find(
-        (msg) => msg.reciverId === reciverId && msg.id === messageId,
+        (msg) => msg.receiverId === receiverId && msg.id === messageId,
       );
       if (message) {
         message.seen = true;
-        //send the seen status to the sender
         io.to(user?.socketId).emit("messageSeen", {
           senderId,
           messageId,
-          reciverId,
+          receiverId,
           seen: true,
         });
       }

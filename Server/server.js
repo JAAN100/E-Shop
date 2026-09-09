@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 const app = require("./app");
 const connectDB = require("./db/connection");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 // Handle Uncaught exception
 process.on("uncaughtException", (err) => {

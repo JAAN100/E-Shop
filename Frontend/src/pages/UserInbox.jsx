@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
 const ENDPOINT = "http://localhost:4000/";
-const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
+const socketId = socketIO(ENDPOINT, { transports: ["polling", "websocket"] });
 export default function UserInbox() {
     const { user } = useSelector((state) => state.user);
     const [conversations, setConversations] = React.useState([]);
@@ -24,17 +24,19 @@ export default function UserInbox() {
     const [activeStatus, setActiveStatus] = React.useState(false);
     const [newMessage, setNewMessage] = React.useState("");
     React.useEffect(() => {
-        socketId.on("getMessage", (data) => {
+        const handleMessage = (data) => {
             setArrivalMessage({
-                sender: data.senderId,
+                senderId: data.senderId,
                 text: data.text,
                 createdAt: Date.now(),
             });
-        });
+        };
+        socketId.on("getMessage", handleMessage);
+        return () => socketId.off("getMessage", handleMessage);
     }, []);
     React.useEffect(() => {
         arrivalMessage &&
-            currentChat?.members.includes(arrivalMessage.sender) &&
+            currentChat?.members.includes(arrivalMessage.senderId) &&
             setMessages((prev) => [...prev, arrivalMessage]);
     }, [arrivalMessage, currentChat]);
     React.useEffect(() => {
@@ -80,16 +82,18 @@ export default function UserInbox() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
+                }
             );
+
             const data = await res.json();
+
             if (data.success === true) {
                 setMessages(data.messages);
             }
         };
-        fetchMessages();
-    }, [currentChat, messages]);
 
+        fetchMessages();
+    }, [currentChat]);
     // SEND MESSAGE
     const updateLastMessage = async () => {
         socketId.emit("updateLastMessage", {
@@ -143,7 +147,7 @@ export default function UserInbox() {
                 });
                 const data = await res.json();
                 if (data.success === true) {
-                    setNewMessage([...newMessage, data.message]);
+                    setMessages((prev) => [...prev, data.message]);
                     updateLastMessage();
                 }
             }

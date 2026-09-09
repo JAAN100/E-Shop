@@ -8,12 +8,15 @@ import { useSelector } from "react-redux";
 import { addToCart } from "../../../redux/actions/cart.js";
 import { useDispatch } from "react-redux";
 import { removeFromWishlist, addToWishlist } from "../../../redux/actions/wishlist.js";
+import { useNavigate } from "react-router-dom";
 export default function ProductDetailsCard({ setOpen, data }) {
     const { cart } = useSelector((state) => state.cart);
     const [count, setCount] = React.useState(1);
     const [click, setClick] = React.useState(false);
     const [shopData, setShopData] = React.useState(null);
+    const { isAuthenticated, user } = useSelector((state) => state.user);
     const { wishlist } = useSelector((state) => state.wishlist);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     useEffect(() => {
         if (wishlist && wishlist.find((i) => i?._id === data?._id)) {
@@ -47,8 +50,35 @@ export default function ProductDetailsCard({ setOpen, data }) {
         }
     }
 
-    const handleMessageSubmit = () => {
-
+    const handleMessageSubmit = async () => {
+        if (!isAuthenticated) {
+            return toast.error("Please login to send message!");
+        }
+        try {
+            const groupTitle = data.shop._id + user._id;
+            const userId = user._id;
+            const shopId = data.shop._id;
+            const res = await fetch(`/api/conversation/create-conversation`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        groupTitle,
+                        userId,
+                        shopId,
+                    }),
+                }, { withCredentials: true });
+            const result = await res.json();
+            if (result.success) {
+                navigate("/inbox");
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
     return (
         <div className="bg-white">

@@ -57,7 +57,7 @@ export default function ProductDetails({ data }) {
                 }, { withCredentials: true });
             const result = await res.json();
             if (result.success) {
-                navigate(`/conversation/${result.conversation._id}`);
+                navigate("/inbox");
             } else {
                 throw new Error(result.message);
             }

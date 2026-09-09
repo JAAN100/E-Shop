@@ -1,27 +1,31 @@
-const cloudinary = require("cloudinary");
-const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
 
-const uploadCloudinary = async (localFilePath, folder = "uploads") => {
-    if (!localFilePath) {
-        throw new Error("File path is required");
+const uploadCloudinary = async (fileBuffer, folder = "uploads") => {
+    if (!fileBuffer) {
+        throw new Error("File buffer is required");
     }
-    try {
-        const uploadResult = await cloudinary.uploader.upload(localFilePath, {
-            folder,
-            resource_type: "image"
-        });
 
-        fs.unlinkSync(localFilePath);
-        return {
-            url: uploadResult.secure_url,
-            public_id: uploadResult.public_id
-        };
-    } catch (err) {
-        if (localFilePath && fs.existsSync(localFilePath)) {
-            fs.unlinkSync(localFilePath);
-        }
-        throw err;
-    }
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder,
+                resource_type: "image",
+            },
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        url: result.secure_url,
+                        public_id: result.public_id,
+                    });
+                }
+            }
+        );
+
+        streamifier.createReadStream(fileBuffer).pipe(stream);
+    });
 };
 
 exports.uploadCloudinary = uploadCloudinary;
