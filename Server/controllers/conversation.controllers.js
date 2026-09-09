@@ -49,7 +49,7 @@ const UpdateLastMessage = catchAsyncErrors(async (req, res, next) => {
     const conversation = await Conversation.findByIdAndUpdate(
       conversationId,
       { lastMessage, lastMessageId: lastMessageId.toString() },
-      { new: true },
+      { returnDocument: "after" },
     );
 
     res.status(200).json({

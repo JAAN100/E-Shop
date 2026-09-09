@@ -95,7 +95,7 @@ const CreateProductReview = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findByIdAndUpdate(
       orderId,
       { $set: { "cart.$[elem].isReviewed": true } },
-      { arrayFilters: [{ "elem._id": req.body.productId }], new: true },
+      { arrayFilters: [{ "elem._id": req.body.productId }], returnDocument: "after" },
     );
     if (!order) {
       return next(new ErrorHandler("Order not found", 404));
