@@ -10,13 +10,11 @@ import styles from "../styles/styles";
 import { useRef } from "react";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
-
 const socketId = socketIO({
     path: "/socket.io/",
     transports: ["polling", "websocket"],
     withCredentials: true,
 });
-
 export default function UserInbox() {
     const { user } = useSelector((state) => state.user);
     const [conversations, setConversations] = React.useState([]);
@@ -28,8 +26,6 @@ export default function UserInbox() {
     const [onlineUsers, setOnlineUsers] = React.useState([]);
     const [activeStatus, setActiveStatus] = React.useState(false);
     const [newMessage, setNewMessage] = React.useState("");
-
-    // Real-time incoming messages arrive here over the socket — no REST call involved.
     React.useEffect(() => {
         const handleMessage = (data) => {
             setArrivalMessage({
@@ -41,33 +37,24 @@ export default function UserInbox() {
         socketId.on("getMessage", handleMessage);
         return () => socketId.off("getMessage", handleMessage);
     }, []);
-
-    // Push the arrived message into the open conversation only. This is the
-    // ONLY mechanism that should add live messages to `messages` — never add
-    // `messages` itself to another effect's dependency array to "catch" new
-    // messages, that creates a fetch -> setMessages -> refetch loop that will
-    // hammer the server nonstop.
     React.useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.senderId) &&
             setMessages((prev) => [...prev, arrivalMessage]);
     }, [arrivalMessage, currentChat]);
-
     React.useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await fetch(
-                    "/api/conversation/get-all-conversation-user",
-                    {
-                        method: "GET",
-                        credentials: "include",
-                    },
-                );
-                const data = await response.json();
-                setConversations(data.conversations);
-            } catch (error) {
-                toast.error("Failed to load conversations");
-            }
+            const response = await fetch(
+                "/api/conversation/get-all-conversation-user",
+                {
+                    method: "GET",
+                },
+                {
+                    withCredentials: true,
+                },
+            );
+            const data = await response.json();
+            setConversations(data.conversations);
         };
         fetchData();
     }, [user]);
@@ -88,38 +75,28 @@ export default function UserInbox() {
         return online ? true : false;
     };
 
-    // Get Messages (history) — keyed on the conversation's *id*, not the whole
-    // `currentChat` object. updateLastMessage() below replaces `currentChat`
-    // with a brand-new object after every send; keying on the object itself
-    // made this effect re-fire (and re-fetch) after every single message sent.
-    // Keying on the id means it only fires when you actually switch chats.
+    // Get Messages
     React.useEffect(() => {
-        if (!currentChat?._id) return;
-
         const fetchMessages = async () => {
-            try {
-                const res = await fetch(
-                    `/api/message/get-all-messages/${currentChat._id}`,
-                    {
-                        method: "GET",
-                        credentials: "include",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+            const res = await fetch(
+                `/api/message/get-all-messages/${currentChat?._id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                );
-                const data = await res.json();
-                if (data.success === true) {
-                    setMessages(data.messages);
                 }
-            } catch (error) {
-                toast.error("Failed to load messages");
+            );
+
+            const data = await res.json();
+
+            if (data.success === true) {
+                setMessages(data.messages);
             }
         };
 
         fetchMessages();
-    }, [currentChat?._id]);
-
+    }, [currentChat]);
     // SEND MESSAGE
     const updateLastMessage = async () => {
         socketId.emit("updateLastMessage", {
@@ -166,7 +143,6 @@ export default function UserInbox() {
             if (newMessage !== "") {
                 const res = await fetch("/api/message/create-new-message", {
                     method: "POST",
-                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
