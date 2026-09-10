@@ -29,7 +29,7 @@ export default function Activation() {
 
     return (
         <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            {status === 'loading' && <LoginLoader />}
+            {status === 'success' && <LoginLoader />}
 
             {(status === 'idle' || status === 'error') && (
                 <div
@@ -40,8 +40,8 @@ export default function Activation() {
                 </div>
             )}
 
-            {status === 'success' && (
-                <div className="text-white text-[25px]">Your account has been activated!</div>
+            {status === 'loading' && (
+                <div className="text-white text-[25px]">Loading...</div>
             )}
         </div>
     );
