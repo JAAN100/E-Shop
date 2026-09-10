@@ -29,7 +29,7 @@ export default function Activation() {
     };
     return (
         <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <button className={`bg-black text-white p-5 rounded-lg text-[25px] cursor-pointer ${error ? "hidden" : ""}`} onClick={activationEmail}>Activate Your Account</button>
+            <div className={`bg-black text-white p-5 rounded-lg text-[25px] cursor-pointer ${error ? "hidden" : ""}`} onClick={activationEmail}>Activate Your Account</div>
             {error && (
                 <LoginLoader />
             )}
