@@ -26,24 +26,24 @@ export default function EventCard({ active, data }) {
     }
     return (
         <div
-            className={`w-full block bg-white ${active ? "" : "mb-12"} rounded-lg flex p-2 flex-wrap md:flex-nowrap`}
+            className={`w-full bg-white ${active ? "" : "mb-12"} rounded-lg flex flex-col md:flex-row p-2`}
         >
-            <div className="w-full lg:[w-50%] m-auto flex items-center justify-center">
+            <div className="w-full md:w-1/2 flex items-center justify-center">
                 <img
                     src={`${data?.images[0].url}`}
                     alt={data?.productName || "Product Image"}
                     className="w-[80%]"
                 />
             </div>
-            <div className="w-full lg:[w-50%] flex flex-col flex-wrap justify-center mx-4 sm:mx-8 lg:mx-16">
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-4 sm:px-8 lg:px-16">
                 <h2 className="text-[18px] sm:text-[20px] lg:text-[25px] font-[600] font-Roboto text-[#333]">
                     {data?.productName || "Product Name"}
                 </h2>
                 <p className="text-[13px] sm:text-[15px] lg:text-base">
                     {data?.description || "Product Description"}
                 </p>
-                <div className="flex py-2 justify-between">
-                    <div className="flex">
+                <div className="flex py-2 justify-between flex-wrap gap-2">
+                    <div className="flex flex-wrap">
                         <h5 className="font-[500] text-[15px] sm:text-[16px] lg:text-[18px] text-[#d55b45] font-Roboto pr-3 line-through">
                             {data?.originalPrice || "Original Price"} $
                         </h5>
@@ -57,15 +57,17 @@ export default function EventCard({ active, data }) {
                 </div>
                 <CountDown data={data} />
                 <br />
-                <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row flex-wrap items-center gap-3 sm:gap-4">
                     <Link to={`/product/${data?._id}?isEvent=true`}>
-                        <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]">
+                        <div className="w-[130px] sm:w-[150px] bg-black h-[45px] sm:h-[50px] my-1 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] text-sm sm:text-base">
                             See Details
                         </div>
                     </Link>
 
-                    <div className="w-[150px] bg-blue-500 h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]"
-                        onClick={(e) => addToCartHandler(e, data)}>
+                    <div
+                        className="w-[130px] sm:w-[150px] bg-blue-500 h-[45px] sm:h-[50px] my-1 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] text-sm sm:text-base"
+                        onClick={(e) => addToCartHandler(e, data)}
+                    >
                         Add to Cart
                     </div>
                 </div>
